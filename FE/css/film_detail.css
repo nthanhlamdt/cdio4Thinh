@@ -1,0 +1,155 @@
+/* Giữ các style chung */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    min-height: 100vh;
+    background: white;
+}
+
+main {
+    background: url(../img/background_body.png);
+    background-position: center;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.detail-film-container {
+    padding: 45px 100px;
+    background-size: cover;
+    background-position: center;
+}
+
+.layer {
+    background: #f4f4f4;
+    padding: 100px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    max-width: 1450px;
+    margin: 0 auto;
+}
+
+h2 {
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.film-detail.col-md-9 h4 {
+    font-weight: bold;
+}
+
+.film-detail {
+    padding: 15px;
+}
+
+.detail-film-container .layer .film-detail .row .col-md-3 img {
+    width: 100%;
+}
+
+.detail-film-container .layer .film-detail .row .col-md-9 .film-detail-content-info .film-detail-content-info-detail {
+    font-weight: bold;
+}
+
+.btn.btn-primary {
+    background-color: #F08060;
+    color: white;
+    border: 1px solid #F08060;
+}
+
+.btn.btn-primary:hover {
+    background-color: #ee542a;
+    color: white;
+    border: 1px solid #ee542a;
+}
+
+.btn.btn-danger:hover {
+    background-color: #ee542a;
+    color: white;
+}
+
+.btn.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white; 
+}
+
+.btn.btn-secondary:hover {
+    background-color: #5a6268; 
+    border-color: #545b62;
+    color: white;
+}
+
+.film-detail-content-summary h4 {
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #F08060;
+}
+
+.btn.btn-outline-secondary:hover,
+.btn.btn-outline-secondary:focus,
+.btn.btn-outline-secondary[aria-expanded="true"] {
+    color: white;
+    background-color: #F08060;
+    border: 1px solid #F08060; 
+}
+
+.dropdown-menu.dropdown-menu-end li a {
+    color: gray;
+}
+
+.dropdown-menu.dropdown-menu-end li a:hover {
+    color: #F08060;
+}
+
+.dropdown-menu li a {
+    cursor: pointer;
+}
+
+.layer-btn-reservation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.layer-btn-reservation .btn.btn-outline-reservation {
+    background-color: #F08060;
+    color: white;
+    border: 1px solid #F08060;
+}
+
+.layer-btn-reservation .btn.btn-outline-reservation:hover {
+    background-color: #ee542a;
+    color: white;
+    border: 1px solid #ee542a;
+}
+
+.seat {
+    cursor: pointer;
+    user-select: none;
+    border-radius: 5px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.bg-secondary {
+    background-color: gray !important;
+}
+
+.bg-primary {
+    background-color: greenyellow !important;
+}
+
+.bg-danger {
+    background-color: red !important;
+    cursor: not-allowed;
+}
+
+.show-times-info {
+    margin-top: 25px;
+}

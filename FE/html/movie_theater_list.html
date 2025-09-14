@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Rạp Phim</title>
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/movie_theater_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+</head>
+
+<body>
+    <header class="bg-white shadow-sm">
+        <div class="top-bar text-white py-2" style="background-color: #f4f4f4;">
+            <div id="user-info" class="container d-flex justify-content-end align-items-center" style="color: black;">
+
+            </div>
+        </div>
+        <div class="container py-3 d-flex justify-content-between align-items-center">
+            <a href="../html/home.html">
+                <img src="../img/logo.png" alt="PhimHay" />
+            </a>
+            <form class="d-flex" id="search-box">
+                <input class="form-control me-2" type="search" placeholder="Tìm kiếm" required />
+                <button class="btn btn-outline-secondary" id="search-btn" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <a href="../html/login.html" class="user-icon-link text-dark">
+                <i class="fa-solid fa-user fs-4"></i>
+            </a>
+        </div>
+
+        <nav class="nav bg-light border-top border-bottom">
+            <div class="container">
+                <ul class="nav nav-bar justify-content-center">
+                    <li class="nav-item"><a class="nav-link header" href="../html/home.html">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link header" href="../html/movie_theater_list.html">Rạp</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link header dropdown-toggle" href="#">Phim</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../html/film_reviewing.html">Phim Đang Chiếu</a></li>
+                            <li><a class="dropdown-item" href="../html/film_upcoming.html">Phim Sắp Chiếu</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link header" href="../html/contact.html">Liên Hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="movie-theater-list-container">
+            <section class="layer">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="me-3" style="width: 5px; height: 30px; background-color: #F08060;"></div>
+                    <h2 class="mb-0">RẠP</h2>
+                </div>
+                <section class="city">
+                    <span>Thành Phố:</span>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Chọn thành phố">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"></button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item">Hồ Chí Minh</a></li>
+                            <li><a class="dropdown-item">Hà Nội</a></li>
+                            <li><a class="dropdown-item">Đà Nẵng</a></li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="layer-btn">
+                    <button type="button" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Xem Danh Sách Rạp
+                    </button>
+                </section>
+
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Danh Sách Rạp</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th class="custom-color">Tên Rạp</th>
+                                                <th class="custom-color">Địa Chỉ Rạp</th>
+                                                <th class="custom-color">Tỉnh Thành</th>
+                                                <th class="custom-color">Email</th>
+                                                <th class="custom-color">SĐT</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>PhimHay Điện Biên Phủ</td>
+                                                <td>123 Điện Biên Phủ, Quận Thanh Khê</td>
+                                                <td>Đà Nẵng</td>
+                                                <td>phimhay.dienbienphu@gmail.com</td>
+                                                <td>0909 123 456</td>
+                                            </tr>
+                                            <tr>
+                                                <td>PhimHay Lê Duẫn</td>
+                                                <td>20 Lê Duẫn, Quận Hải Châu</td>
+                                                <td>Đà Nẵng</td>
+                                                <td>phimhay.leduan@gmail.com</td>
+                                                <td>0912 345 678</td>
+                                            </tr>
+                                            <tr>
+                                                <td>PhimHay Núi Thành</td>
+                                                <td>200 Núi Thành, Quận Hải Châu</td>
+                                                <td>Đà Nẵng</td>
+                                                <td>phimhay.nuithanh@gmail.com</td>
+                                                <td>0912 345 678</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </section>
+    </main>
+
+    <footer>
+        <section>
+            <section class="footer">
+                <section class="footer-address">
+                    <h3><b>Phim Hay</b></h3>
+                    <p>Địa chỉ: 03 Quang Trung, Quận Hải Châu<br> Thành phố Đà Nẵng, Việt Nam</p>
+                </section>
+                <section class="footer-info">
+                    <h3><b>Liên hệ</b></h3>
+                    <p>Email: hoangvanphong@dtu.edu.vn</p>
+                    <p>Điện thoại: +84 935-431-971</p>
+                </section>
+                <section class="footer-flow">
+                    <h3><b>Theo dõi chúng tôi</b></h3>
+                    <section>
+                        <ion-icon name="logo-facebook"><i class="fa-brands fa-facebook"></i></ion-icon>
+                        <ion-icon name="logo-tiktok"><i class="fa-brands fa-tiktok"></i></ion-icon>
+                        <ion-icon name="logo-youtube"><i class="fa-brands fa-youtube"></i></ion-icon>
+                        <ion-icon name="logo-twitter"><i class="fa-brands fa-twitter"></i></ion-icon>
+                        <ion-icon name="logo-instagram"><i class="fa-brands fa-instagram"></i></ion-icon>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+    <script src="../js/movie_theater_list.js"></script>
+    <script src="../js/common.js"></script>
+
+</body>
+
+</html>

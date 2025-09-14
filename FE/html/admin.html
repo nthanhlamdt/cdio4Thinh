@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhimHay Admin</title>
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+    <header class="bg-white shadow-sm">
+        <div class="top-bar text-white py-2" style="background-color: #f4f4f4;">
+            <div id="user-info" class="container d-flex justify-content-end align-items-center" style="color: black;">
+
+            </div>
+        </div>
+        <div class="container py-3 d-flex justify-content-between align-items-center">
+            <a href="../html/home.html">
+                <img src="../img/logo.png" alt="PhimHay" />
+            </a>
+            <form class="d-flex" id="search-box">
+                <input class="form-control me-2" type="search" placeholder="Tìm kiếm" required />
+                <button class="btn btn-outline-secondary" id="search-btn" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <a href="../html/login.html" class="user-icon-link text-dark">
+                <i class="fa-solid fa-user fs-4"></i>
+            </a>
+        </div>
+
+        <nav class="nav bg-light border-top border-bottom">
+            <div class="container">
+                <ul class="nav nav-bar justify-content-center">
+                    <li class="nav-item"><a class="nav-link header" href="../html/home.html">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link header" href="../html/movie_theater_list.html">Rạp</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link header dropdown-toggle" href="#">Phim</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../html/film_reviewing.html">Phim Đang Chiếu</a></li>
+                            <li><a class="dropdown-item" href="../html/film_upcoming.html">Phim Sắp Chiếu</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link header" href="../html/contact.html">Liên Hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="info-container">
+            <section class="layer">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="me-3" style="width: 5px; height: 30px; background-color: #F08060;"></div>
+                    <h2 class="mb-0">ADMIN</h2>
+                </div>
+
+                <section class="info-aside">
+                    <aside class="menu">
+                        <a href="#" class="link-dashboard">
+                            <h3 style="font-size: 18px;"><i class="fas fa-tv"></i> Thống Kê</h3>
+                        </a>
+
+                        <h3 style="font-size: 14px; margin-top: 35px; opacity: 0.6;">Quản lý cá nhân</h3>
+                        <ul class="first-ul">
+                            <li><a href="#" class="link-in4"><i class="fa-solid fa-circle-info"></i> Thông tin tài
+                                    khoản</a></li>
+                        </ul>
+
+                        <h3 style="font-size: 14px; margin-top: 35px; opacity: 0.6;">Quản lý chương trình</h3>
+                        <ul class="first-ul">
+                            <li><a href="#" class="link-film"><i class="fas fa-film"></i> Danh sách phim</a></li>
+                            <li><a href="#" class="link-showtimes"><i class="fas fa-calendar-alt"></i> Danh sách lịch
+                                    chiếu</a></li>
+                        </ul>
+
+                        <h3 style="font-size: 14px; margin-top: 35px; opacity: 0.6;">Quản lý người dùng</h3>
+                        <ul class="second-ul">
+                            <li><a href="#" class="link-admin"><i class="fas fa-user-shield"></i> Quản trị viên</a></li>
+                            <li><a href="#" class="link-users"><i class="fas fa-users"></i> Thành viên</a></li>
+                        </ul>
+
+                        <h3 style="font-size: 14px; margin-top: 35px; opacity: 0.6;">Quản lý Thanh toán</h3>
+                        <ul class="second-ul">
+                            <li><a href="#" class="link-pay"><i class="fa-solid fa-credit-card"></i> Danh sách thanh toán</a></li>
+                        </ul>
+                    </aside>
+
+                    <section class="info dashboard">
+                        <div class="d-flex mb-4">
+                            <h2 class="mb-0">Thống Kê</h2>
+                        </div>
+
+                        <section class="dashboard-cards">
+                            <div class="card revenue">
+                                <h3>Doanh Thu</h3>
+                                <p>450.000 VNĐ</p>
+                            </div>
+                            <div class="card cinemas">
+                                <h3>Số Rạp Toàn Quốc</h3>
+                                <p>3 rạp</p>
+                            </div>
+                            <div class="card customers">
+                                <h3>Số Khách Hàng</h3>
+                                <p>5 Người</p>
+                            </div>
+                            <div class="card tickets">
+                                <h3>Tổng Số Vé Đã Bán</h3>
+                                <p>2 Vé</p>
+                            </div>
+                        </section>
+
+                    </section>
+
+                    <section class="info in4">
+                        <div class="d-flex mb-4">
+                            <h2 class="mb-0">THÔNG TIN TÀI KHOẢN</h2>
+                        </div>
+                        <section class="layer-info">
+                            <form class="info-form" action="#">
+                                <section class="info-box">
+                                    <input type="text" name="username" id="username" value="admin1" readonly
+                                        class="readonly-input">
+                                    <label>Tên Đăng Nhập</label>
+                                </section>
+                                <section class="info-box">
+                                    <input type="text" name="fullname" id="fullname" placeholder="Nhập Họ Và Tên"
+                                        value="" required>
+                                    <label>Họ Tên</label>
+                                </section>
+                                <section class="info-box">
+                                    <input type="text" name="email" id="email" placeholder="Nhập Email"
+                                        value="hoangvanphong@dtu.edu.vn" required>
+                                    <label>Email</label>
+                                </section>
+                                <section class="info-box">
+                                    <input type="text" name="phoneNumber" id="phoneNumber"
+                                        placeholder="Nhập Số Điện Thoại" value="" required>
+                                    <label>Số Điện Thoại</label>
+                                </section>
+                                <section class="info-box">
+                                    <input type="password" name="password" id="password" value="123456789" readonly
+                                        class="readonly-input">
+                                    <label>Mật Khẩu</label>
+                                </section>
+                                <section class="layer-btn save">
+                                    <section class="group-btn">
+                                        <button type="submit" class="save-btn" data-bs-toggle="modal"
+                                            data-bs-target="#successSaveModal">Cập Nhật</button>
+                                    </section>
+                                </section>
+                            </form>
+                        </section>
+                    </section>
+
+                    <div class="modal" id="successSaveModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-sm modal-dialog-centered">
+                            <div class="modal-content text-center p-3">
+                                <div class="modal-body">
+                                    <h5 class="modal-title mb-3">Cập nhật thông tin thành công thành công!</h5>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section class="info film">
+                        <div class="d-flex mb-4">
+                            <h2 class="mb-0">Danh Sách Phim</h2>
+                        </div>
+
+                        <section class="layer-btn add-delete">
+                            <section class="group-btn">
+                                <button class="btn add-btn" data-bs-toggle="modal" data-bs-target="#addFilmModal"><i
+                                        class="fas fa-plus"></i></button>
+                                <button class="btn delete-btn" data-bs-toggle="modal"
+                                    data-bs-target="#deleteFilmModal"><i class="fas fa-trash"></i></button>
+                            </section>
+                        </section>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead>
+                                    <tr>
+                                        <th class="custom-color">Mã Phim</th>
+                                        <th class="custom-color">Tên Phim</th>
+                                        <th class="custom-color">Đạo Diễn</th>
+                                        <th class="custom-color">Thể Loại</th>
+                                        <th class="custom-color">Ngôn Ngữ</th>
+                                        <th class="custom-color">Rated</th>
+                                        <th class="custom-color">Poster Phim</th>
+                                        <th class="custom-color">Tình Trạng Phim</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>MP1</b></td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>Bùi Thạc Chuyên</td>
+                                        <td>Lịch Sử</td>
+                                        <td>Tiếng Việt - Phụ đề Tiếng Anh</td>
+                                        <td>T16 - Phim được phổ biến đến người xem từ đủ 16 tuổi trở lên (16+)</td>
+                                        <td>
+                                            <img src="../img/poster/dia_dao_mat_troi.jpg" alt="#"
+                                                style="width: 70px; height: auto;">
+                                        </td>
+                                        <td>Đang Chiếu</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>MP2</b></td>
+                                        <td>Mẹ Quỷ Con Ma</td>
+                                        <td>Man Ki Kwok</td>
+                                        <td>Kinh Dị</td>
+                                        <td>Tiếng Indonesia - Phụ đề Tiếng Anh và tiếng Việt</td>
+                                        <td>T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)</td>
+                                        <td>
+                                            <img src="../img/poster/me_quy_con_ma.jpg" alt="#"
+                                                style="width: 70px; height: auto;">
+                                        </td>
+                                        <td>Sắp Chiếu</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>MP3</b></td>
+                                        <td>Một Bộ Phim Minecraft</td>
+                                        <td>Jared Hess</td>
+                                        <td>Gia đình, Hành Động, Phiêu Lưu, Thần thoại</td>
+                                        <td>Tiếng Anh – Phụ đề Tiếng Việt, Lồng Tiếng Việt</td>
+                                        <td>K - Phim được phổ biến đến người xem dưới 13 tuổi và có người bảo hộ đi kèm
+                                        </td>
+                                        <td>
+                                            <img src="../img/poster/mot_bo_phim_minecraft.jpg" alt="#"
+                                                style="width: 70px; height: auto;">
+                                        </td>
+                                        <td>Đang Chiếu</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>MP4</b></td>
+                                        <td>Đầu Xuôi Đuôi Đút Lót</td>
+                                        <td>Ha Jung Woo</td>
+                                        <td>Hài, Tâm Lý</td>
+                                        <td>Tiếng Hàn - Phụ đề tiếng Việt, tiếng Anh</td>
+                                        <td>T16 - Phim được phổ biến đến người xem từ đủ 16 tuổi trở lên (16+)</td>
+                                        <td>
+                                            <img src="../img/poster/dau_xuoi_duoi_dut_lot.jpg" alt="#"
+                                                style="width: 70px; height: auto;">
+                                        </td>
+                                        <td>Sắp Chiếu</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <section class="layer-btn next-pre">
+                            <section class="group-btn">
+                                <button type="submit" class="nxt-pre-btn">Quay Lại</button>
+                                <button type="submit" class="nxt-pre-btn">Tiếp Theo</button>
+                            </section>
+                        </section>
+
+                    </section>
+
+                    <div class="modal" id="addFilmModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Thêm Phim</h4>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form class="info-form" action="#">
+                                        <section class="info-box">
+                                            <input type="text" name="namefilm" id="namefilm" placeholder="Nhập Tên Phim"
+                                                value="" required>
+                                            <label>Tên Phim</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="director" id="director"
+                                                placeholder="Nhập Tên Đạo Diễn" value="" required>
+                                            <label>Đạo Diễn</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="performer" id="performer"
+                                                placeholder="Nhập Tên Diễn Viên" value="" required>
+                                            <label>Diễn Viên</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="category" id="category" placeholder="Nhập Thể Loại"
+                                                value="" required>
+                                            <label>Thể Loại</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="realese-date" id="realese-date"
+                                                placeholder="Nhập Ngày Khởi Chiếu (dd/mm/yyyy)" value="" required>
+                                            <label>Ngày Khởi Chiếu</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="duration" id="duration"
+                                                placeholder="Nhập Thời Lượng" value="" required>
+                                            <label>Thời Lượng</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="language" id="language" placeholder="Nhập Ngôn Ngữ"
+                                                value="" required>
+                                            <label>Ngôn Ngữ</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="rated" id="rated" placeholder="Nhập Rated" value=""
+                                                required>
+                                            <label>Rated</label>
+                                        </section>
+                                        <section class="input-group info-box mb-3">
+                                            <input type="text" class="form-control" placeholder="Chọn tình trạng phim">
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item">Đang Chiếu</a></li>
+                                                <li><a class="dropdown-item">Sắp Chiếu</a></li>
+                                            </ul>
+                                            <label>Tình Trạng Phim</label>
+                                        </section>
+                                    </form>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#successAddFilmModal">Thêm</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="successAddFilmModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-sm modal-dialog-centered">
+                            <div class="modal-content text-center p-3">
+                                <div class="modal-body">
+                                    <h5 class="modal-title mb-3">Thêm phim thành công!</h5>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="deleteFilmModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Xóa Phim</h4>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form class="info-form" action="#">
+                                        <section class="info-box">
+                                            <input type="text" name="namefilm" id="namefilm" placeholder="Nhập Mã Phim"
+                                                value="" required>
+                                            <label>Mã Phim</label>
+                                        </section>
+                                    </form>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#successDeleteFilmModal">Xóa</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="successDeleteFilmModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-sm modal-dialog-centered">
+                            <div class="modal-content text-center p-3">
+                                <div class="modal-body">
+                                    <h5 class="modal-title mb-3">Xóa phim thành công!</h5>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section class="info showtimes">
+                        <div class="d-flex mb-4">
+                            <h2 class="mb-0">Danh Sách Suất Chiếu</h2>
+                        </div>
+
+                        <section class="layer-btn add-delete">
+                            <section class="group-btn">
+                                <button class="btn add-btn" data-bs-toggle="modal"
+                                    data-bs-target="#addShowtimesModal"><i class="fas fa-plus"></i></button>
+                                <button class="btn delete-btn" data-bs-toggle="modal"
+                                    data-bs-target="#deleteShowtimesModal"><i class="fas fa-trash"></i></button>
+                            </section>
+                        </section>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="custom-color">Mã Lịch Chiếu</th>
+                                        <th class="custom-color">Tên Phim</th>
+                                        <th class="custom-color">Tên Rạp</th>
+                                        <th class="custom-color">Phòng</th>
+                                        <th class="custom-color">Thành Phố</th>
+                                        <th class="custom-color">Thời Gian</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>LC1</b></td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>2</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>19-05-2025 16:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>LC2</b></td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>2</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>20-05-2025 19:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>LC3</b></td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>2</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>21-05-2025 23:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>LC4</b></td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>3</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>19-05-2025 16:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>LC5</b></td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>3</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>20-05-2025 19:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>LC6</b></td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>3</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>21-05-2025 23:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>LC7</b></td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>1</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>19-05-2025 16:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>LC8</b></td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>1</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>20-05-2025 19:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>LC9</b></td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>1</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>21-05-2025 23:00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <section class="layer-btn next-pre">
+                            <section class="group-btn">
+                                <button type="submit" class="nxt-pre-btn">Quay Lại</button>
+                                <button type="submit" class="nxt-pre-btn">Tiếp Theo</button>
+                            </section>
+                        </section>
+                    </section>
+
+                    <div class="modal" id="addShowtimesModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Thêm Lịch Chiếu</h4>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form class="info-form" action="#">
+                                        <section class="info-box">
+                                            <input type="text" name="namefilm" id="namefilm" placeholder="Nhập Tên Phim"
+                                                value="" required>
+                                            <label>Tên Phim</label>
+                                        </section>
+                                        <section class="input-group info-box mb-3">
+                                            <input type="text" class="form-control" placeholder="Chọn thành phố">
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item">Hồ Chí Minh</a></li>
+                                                <li><a class="dropdown-item">Hà Nội</a></li>
+                                                <li><a class="dropdown-item">Đà Nẵng</a></li>
+                                            </ul>
+                                            <label>Thành Phố</label>
+                                        </section>
+                                        <section class="input-group info-box mb-3">
+                                            <input type="text" class="form-control" placeholder="Chọn rạp">
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item">PhimHay Điện Biên Phủ</a></li>
+                                                <li><a class="dropdown-item">PhimHay Lê Duẫn</a></li>
+                                                <li><a class="dropdown-item">PhimHay Núi Thành</a></li>
+                                            </ul>
+                                            <label>Rạp</label>
+                                        </section>
+                                        <section class="input-group info-box mb-3">
+                                            <input type="text" class="form-control" placeholder="Chọn phòng">
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item">Rạp 1</a></li>
+                                                <li><a class="dropdown-item">Rạp 2</a></li>
+                                                <li><a class="dropdown-item">Rạp 3</a></li>
+                                                <li><a class="dropdown-item">Rạp 4</a></li>
+                                                <li><a class="dropdown-item">Rạp 5</a></li>
+                                                <li><a class="dropdown-item">Rạp 6</a></li>
+                                                <li><a class="dropdown-item">Rạp 7</a></li>
+                                            </ul>
+                                            <label>Phòng</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="times-" id="times"
+                                                placeholder="Nhập Ngày (dd/mm/yyyy)" value="" required>
+                                            <label>Ngày</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="times-" id="times" placeholder="Nhập Giờ" value=""
+                                                required>
+                                            <label>Giờ</label>
+                                        </section>
+                                    </form>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#successAddShowtimesModal">Thêm</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="successAddShowtimesModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-sm modal-dialog-centered">
+                            <div class="modal-content text-center p-3">
+                                <div class="modal-body">
+                                    <h5 class="modal-title mb-3">Thêm lịch chiếu thành công!</h5>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="deleteShowtimesModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Xóa Lịch Chiếu</h4>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form class="info-form" action="#">
+                                        <section class="info-box">
+                                            <input type="text" name="namefilm" id="namefilm" placeholder="Nhập mã lịch chiếu"
+                                                value="" required>
+                                            <label>Mã Lịch Chiếu</label>
+                                        </section>
+                                    </form>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#successDeleteShowtimesModal">Xóa</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="successDeleteShowtimesModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-sm modal-dialog-centered">
+                            <div class="modal-content text-center p-3">
+                                <div class="modal-body">
+                                    <h5 class="modal-title mb-3">Xóa lịch chiếu thành công!</h5>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section class="info admin">
+                        <div class="d-flex mb-4">
+                            <h2 class="mb-0">Danh Sách Admin</h2>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead>
+                                    <tr>
+                                        <th class="custom-color">Mã Admin</th>
+                                        <th class="custom-color">Tên Đăng Nhập</th>
+                                        <th class="custom-color">Email</th>
+                                        <th class="custom-color">Họ Tên</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>ND2</b></td>
+                                        <td>admin1</td>
+                                        <td>hoangvanphong@dtu.edu.vn</td>
+                                        <td>Hoàng Văn Phong</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <section class="layer-btn next-pre">
+                            <section class="group-btn">
+                                <button type="submit" class="nxt-pre-btn">Quay Lại</button>
+                                <button type="submit" class="nxt-pre-btn">Tiếp Theo</button>
+                            </section>
+                        </section>
+
+                    </section>
+
+                    <section class="info users">
+                        <div class="d-flex mb-4">
+                            <h2 class="mb-0">Danh Sách Thành Viên</h2>
+                        </div>
+
+                        <section class="layer-btn add-delete">
+                            <section class="group-btn">
+                                <button class="btn add-btn" data-bs-toggle="modal"
+                                    data-bs-target="#addUserModal"><i class="fas fa-plus"></i></button>
+                                <button class="btn delete-btn" data-bs-toggle="modal"
+                                    data-bs-target="#deleteUsersModal"><i class="fas fa-trash"></i></button>
+                            </section>
+                        </section>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead>
+                                    <tr>
+                                        <th class="custom-color">Tên Đăng Nhập</th>
+                                        <th class="custom-color">Họ Tên</th>
+                                        <th class="custom-color">Email</th>
+                                        <th class="custom-color">Số Điện Thoại</th>
+                                        <th class="custom-color">Vai Trò</th>
+                                        <th class="custom-color">Thao Tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <!-- Dữ liệu sẽ được load từ API -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <section class="layer-btn next-pre">
+                            <section class="group-btn">
+                                <button type="submit" class="nxt-pre-btn">Quay Lại</button>
+                                <button type="submit" class="nxt-pre-btn">Tiếp Theo</button>
+                            </section>
+                        </section>
+                    </section>
+
+                    <!-- Modal Thêm Người Dùng -->
+                    <div class="modal" id="addUserModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Thêm Người Dùng</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="info-form" id="addUserForm">
+                                        <section class="info-box">
+                                            <input type="text" name="username" id="addUsername" placeholder="Nhập tên đăng nhập"
+                                                required>
+                                            <label>Tên Đăng Nhập</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="fullname" id="addFullname" placeholder="Nhập họ tên">
+                                            <label>Họ Tên</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="email" name="email" id="addEmail" placeholder="Nhập email">
+                                            <label>Email</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="phone" id="addPhone" placeholder="Nhập số điện thoại">
+                                            <label>Số Điện Thoại</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="password" name="password" id="addPassword" placeholder="Nhập mật khẩu"
+                                                required>
+                                            <label>Mật Khẩu</label>
+                                        </section>
+                                        <section class="input-group info-box mb-3">
+                                            <select class="form-select" name="role" id="addRole" required>
+                                                <option value="">Chọn vai trò</option>
+                                                <option value="MAVT1">ADMIN</option>
+                                                <option value="MAVT2">KHÁCH HÀNG</option>
+                                            </select>
+                                            <label>Vai Trò</label>
+                                        </section>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="saveUserBtn">Thêm</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Sửa Người Dùng -->
+                    <div class="modal" id="editUserModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Sửa Thông Tin Người Dùng</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="info-form" id="editUserForm">
+                                        <section class="info-box">
+                                            <input type="text" name="username" id="editUsername" readonly class="readonly-input">
+                                            <label>Tên Đăng Nhập</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="fullname" id="editFullname" placeholder="Nhập họ tên">
+                                            <label>Họ Tên</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="email" name="email" id="editEmail" placeholder="Nhập email">
+                                            <label>Email</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="phone" id="editPhone" placeholder="Nhập số điện thoại">
+                                            <label>Số Điện Thoại</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="password" name="password" id="editPassword" placeholder="Để trống nếu không đổi mật khẩu">
+                                            <label>Mật Khẩu Mới</label>
+                                        </section>
+                                        <section class="input-group info-box mb-3">
+                                            <select class="form-select" name="role" id="editRole" required>
+                                                <option value="MAVT1">ADMIN</option>
+                                                <option value="MAVT2">KHÁCH HÀNG</option>
+                                            </select>
+                                            <label>Vai Trò</label>
+                                        </section>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="updateUserBtn">Cập Nhật</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="deleteUsersModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Xóa thành viên</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="info-form" action="#">
+                                        <section class="info-box">
+                                            <input type="text" name="username" id="deleteUsername" placeholder="Nhập tên đăng nhập"
+                                                required>
+                                            <label>Tên Đăng Nhập</label>
+                                        </section>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="confirmDeleteUserBtn">Xóa</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="successDeleteUsersModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-sm modal-dialog-centered">
+                            <div class="modal-content text-center p-3">
+                                <div class="modal-body">
+                                    <h5 class="modal-title mb-3">Xóa thành viên thành công!</h5>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <seciton class="info pay">
+                        <div class="d-flex mb-4">
+                            <h2 class="mb-0">Danh Sách Thanh Toán</h2>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead>
+                                    <tr>
+                                        <th class="custom-color">Mã Thành Viên</th>
+                                        <th class="custom-color">Tên Đăng Nhập</th>
+                                        <th class="custom-color">Tên Phim</th>
+                                        <th class="custom-color">Thành Phố</th>
+                                        <th class="custom-color">Rạp</th>
+                                        <th class="custom-color">Phòng</th>
+                                        <th class="custom-color">Ghế</th>
+                                        <th class="custom-color">Thời Gian Đặt</th>
+                                        <th class="custom-color">Giá Vé</th>
+                                        <th class="custom-color">Xác Nhận Thanh Toán</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>ND1</b></td>
+                                        <td>luulam0307</td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>Rạp 2</td>
+                                        <td>E3</td>
+                                        <td>2025-05-31 12:09:43</td>
+                                        <td>125.000</td>
+                                        <td>Đã Xác Nhận</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>ND1</b></td>
+                                        <td>luulam0307</td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>Rạp 2</td>
+                                        <td>E4</td>
+                                        <td>2025-05-31 12:09:43</td>
+                                        <td>125.000</td>
+                                        <td>Đã Xác Nhận</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <section class="layer-btn next-pre">
+                            <section class="group-btn">
+                                <button type="submit" class="nxt-pre-btn">Quay Lại</button>
+                                <button type="submit" class="nxt-pre-btn">Tiếp Theo</button>
+                            </section>
+                        </section>
+                    </seciton>
+
+                </section>
+            </section>
+        </section>
+
+    </main>
+
+    <footer>
+        <section>
+            <section class="footer">
+                <section class="footer-address">
+                    <h3><b>Phim Hay</b></h3>
+                    <p>Địa chỉ: 03 Quang Trung, Quận Hải Châu<br> Thành phố Đà Nẵng, Việt Nam</p>
+                </section>
+                <section class="footer-info">
+                    <h3><b>Liên hệ</b></h3>
+                    <p>Email: hoangvanphong@dtu.edu.vn</p>
+                    <p>Điện thoại: +84 935-431-971</p>
+                </section>
+                <section class="footer-flow">
+                    <h3><b>Theo dõi chúng tôi</b></h3>
+                    <section>
+                        <ion-icon name="logo-facebook"><i class="fa-brands fa-facebook"></i></ion-icon>
+                        <ion-icon name="logo-tiktok"><i class="fa-brands fa-tiktok"></i></ion-icon>
+                        <ion-icon name="logo-youtube"><i class="fa-brands fa-youtube"></i></ion-icon>
+                        <ion-icon name="logo-twitter"><i class="fa-brands fa-twitter"></i></ion-icon>
+                        <ion-icon name="logo-instagram"><i class="fa-brands fa-instagram"></i></ion-icon>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/admin.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: monospace ;
+    min-height: 100vh;
+    background: white;
+}
+
+main {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.film {
+    padding: 20px;
+}
+
+

@@ -1,0 +1,39 @@
+footer {
+    background-color: black;
+    font-family: 'Times New Roman', Times, serif;
+    color: #ffffff; 
+    padding: 40px 20px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between; 
+    max-width: 1200px; 
+    margin: auto; 
+}
+
+.footer h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.footer p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.footer-flow {
+    display: block; 
+    align-items: center;
+}
+
+.footer-flow ion-icon {
+    font-size: 24px; 
+    color: #ffffff; 
+    margin-right: 15px;
+}
+
+.footer-flow ion-icon:hover {
+    color: #fd7e14; 
+}
+

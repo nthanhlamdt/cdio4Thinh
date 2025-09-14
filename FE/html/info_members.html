@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin người dùng</title>
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/info_members.css">
+</head>
+
+<body>
+
+    <header class="bg-white shadow-sm">
+        <div class="top-bar text-white py-2" style="background-color: #f4f4f4;">
+            <div id="user-info" class="container d-flex justify-content-end align-items-center" style="color: black;">
+
+            </div>
+        </div>
+        <div class="container py-3 d-flex justify-content-between align-items-center">
+            <a href="../html/home.html">
+                <img src="../img/logo.png" alt="PhimHay" />
+            </a>
+            <form class="d-flex" id="search-box">
+                <input class="form-control me-2" type="search" placeholder="Tìm kiếm" required />
+                <button class="btn btn-outline-secondary" id="search-btn" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <a href="../html/login.html" class="user-icon-link text-dark">
+                <i class="fa-solid fa-user fs-4"></i>
+            </a>
+        </div>
+
+        <nav class="nav bg-light border-top border-bottom">
+            <div class="container">
+                <ul class="nav nav-bar justify-content-center">
+                    <li class="nav-item"><a class="nav-link header" href="../html/home.html">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link header" href="../html/movie_theater_list.html">Rạp</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link header dropdown-toggle" href="#">Phim</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../html/film_reviewing.html">Phim Đang Chiếu</a></li>
+                            <li><a class="dropdown-item" href="../html/film_upcoming.html">Phim Sắp Chiếu</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link header" href="../html/contact.html">Liên Hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="info-container">
+            <section class="layer">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="me-3" style="width: 5px; height: 30px; background-color: #F08060;"></div>
+                    <h2 class="mb-0">THÔNG TIN NGƯỜI DÙNG</h2>
+                </div>
+
+                <section class="info-aside">
+                    <aside class="menu">
+                        <h3 style="font-size: 14px; opacity: 0.6;">Quản lý cá nhân</h3>
+                        <ul>
+                            <li><a href="#" class="link-user-info"><i class="fa-solid fa-circle-info"></i> Thông tin tài khoản</a></li>
+                            <li><a href="#" class="link-user-history"><i class="fa-solid fa-ticket"></i> Lịch sử đặt vé</a></li>
+                            <li><a href="#" class="link-user-password"><i class="fa-solid fa-lock"></i> Đổi mật khẩu</a></li>
+                        </ul>
+                    </aside>
+
+                    <section class="info user">
+                        <div class="d-flex mb-4">
+                            <h2 class="mb-0">THÔNG TIN TÀI KHOẢN</h2>
+                        </div>
+                        <section class="layer-info">
+                            <form class="info-form" action="#">
+                                <section class="info-box">
+                                    <input type="text" name="username" id="username"
+                                        value="luulam0307" readonly class="readonly-input">
+                                    <label>Tên Đăng Nhập</label>
+                                </section>                            
+                                <section class="info-box">
+                                    <input type="text" name="fullname" id="fullname" placeholder="Nhập Họ Và Tên"
+                                        value="" required>
+                                    <label>Họ Tên</label>
+                                </section>
+                                <section class="info-box">
+                                    <input type="text" name="email" id="email" placeholder="Nhập Email"
+                                        value="luuvanlam@dtu.edu.vn" required>
+                                    <label>Email</label>
+                                </section>
+                                <section class="info-box">
+                                    <input type="text" name="phoneNumber" id="phoneNumber"
+                                        placeholder="Nhập Số Điện Thoại" value="" required>
+                                    <label>Số Điện Thoại</label>
+                                </section>
+                                <section class="info-box">
+                                    <input type="password" name="password" id="password"
+                                        value="123456789" readonly class="readonly-input">
+                                    <label>Mật Khẩu</label>
+                                </section>
+                                <section class="layer-btn">
+                                    <button type="submit" class="save-bnt">Cập Nhật</button>
+                                </section>
+                            </form>
+                        </section>
+                    </section>
+
+                    <section class="info history">
+                        <div class="d-flex mb-4">
+                            <h2 class="mb-0">LỊCH SỬ ĐẶT VÉ</h2>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead>
+                                    <tr>
+                                        <th class="custom-color">Mã Lịch Sử</th>
+                                        <th class="custom-color">Mã Vé</th>
+                                        <th class="custom-color">Tên Phim</th>
+                                        <th class="custom-color">Ghế</th>
+                                        <th class="custom-color">Phòng</th>
+                                        <th class="custom-color">Rạp</th>
+                                        <th class="custom-color">Thành Phố</th>
+                                        <th class="custom-color">Thời Gian Đặt</th>
+                                        <th class="custom-color">Phương Thức Thanh Toán</th>
+                                        <th class="custom-color">Tình Trạng Thanh Toán</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>MALS1</b></td>
+                                        <td>MAVE1</td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>E3</td>
+                                        <td>Rạp 2</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>2025-05-31 12:09:43</td>
+                                        <td>Chuyển khoản ngân hàng</td>
+                                        <td>Đã thanh toán</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>MALS2</b></td>
+                                        <td>MAVE2</td>
+                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
+                                        <td>E4</td>
+                                        <td>Rạp 2</td>
+                                        <td>PhimHay Điện Biên Phủ</td>
+                                        <td>Đà Nẵng</td>
+                                        <td>2025-05-31 12:09:43</td>
+                                        <td>Chuyển khoản ngân hàng</td>
+                                        <td>Đã thanh toán</td>
+                                    </tr>
+                                                                      
+                                </tbody>
+                            </table>
+                        </div>
+                        <section class="layer-btn">
+                            <section class="group-btn">
+                                <button type="submit" class="save-bnt">Quay Lại</button>
+                                <button type="submit" class="save-bnt">Tiếp Theo</button>
+                            </section>
+                        </section>
+
+                    </section>
+
+                    <section class="info password">
+                        <div class="d-flex mb-4">
+                            <h2 class="mb-0">ĐỔI MẬT KHẨU</h2>
+                        </div>
+                        <section class="layer-info">
+                            <form class="info-form" action="#">
+                                <section class="info-box">
+                                    <input type="text" name="oldPassword" id="oldPassword"
+                                        placeholder="Nhập Mật Khẩu Hiện Tại" value="" required>
+                                    <label>Mật Khẩu Hiện Tại</label>
+                                </section>
+                                <section class="info-box">
+                                    <input type="text" name="newPassword" id="newPassword"
+                                        placeholder="Nhập Mật Khẩu Mới" value="" required>
+                                    <label>Mật Khẩu Mới</label>
+                                </section>
+                                <section class="info-box">
+                                    <input type="text" name="confirmNewPassword" id="confirmNewPassword"
+                                        placeholder="Xác Nhận Lại Mật Khẩu" value="" required>
+                                    <label>Xác Nhận Mật Khẩu</label>
+                                </section>
+                                <section class="layer-btn">
+                                    <button type="submit" class="save-bnt">Cập Nhật</button>
+                                </section>
+                            </form>
+                        </section>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <section>
+            <section class="footer">
+                <section class="footer-address">
+                    <h3><b>Phim Hay</b></h3>
+                    <p>Địa chỉ: 03 Quang Trung, Quận Hải Châu<br> Thành phố Đà Nẵng, Việt Nam</p>
+                </section>
+                <section class="footer-info">
+                    <h3><b>Liên hệ</b></h3>
+                    <p>Email: hoangvanphong@dtu.edu.vn</p>
+                    <p>Điện thoại: +84 935-431-971</p>
+                </section>
+                <section class="footer-flow">
+                    <h3><b>Theo dõi chúng tôi</b></h3>
+                    <section>
+                        <ion-icon name="logo-facebook"><i class="fa-brands fa-facebook"></i></ion-icon>
+                        <ion-icon name="logo-tiktok"><i class="fa-brands fa-tiktok"></i></ion-icon>
+                        <ion-icon name="logo-youtube"><i class="fa-brands fa-youtube"></i></ion-icon>
+                        <ion-icon name="logo-twitter"><i class="fa-brands fa-twitter"></i></ion-icon>
+                        <ion-icon name="logo-instagram"><i class="fa-brands fa-instagram"></i></ion-icon>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/info_members.js"></script>
+
+</body>
+
+</html>

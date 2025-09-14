@@ -1,0 +1,98 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    min-height: 100vh;
+    background: white;
+}
+
+main {
+    background: url(../img/background_body.png);
+    background-position: center;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.movie-theater-list-container {
+    padding: 45px 100px;
+    background-size: cover;
+    background-position: center;
+}
+
+.layer {
+    background: #f4f4f4;
+    padding: 100px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    max-width: 1450px;
+    margin: 0 auto;
+}
+
+.city span {
+    font-weight: bold;
+}
+
+.input-group {
+    margin-top: 12px;
+}
+
+.btn.btn-outline-secondary:hover {
+    border: 1px solid #F08060;
+    background-color: #F08060;
+}
+
+.dropdown-menu.dropdown-menu-end li a {
+    color: gray;
+}
+
+.dropdown-menu.dropdown-menu-end li a:hover {
+    color: #F08060;
+}
+
+.dropdown-menu li a {
+    cursor: pointer;
+}
+
+.btn.btn-outline-secondary:hover,
+.btn.btn-outline-secondary:focus,
+.btn.btn-outline-secondary[aria-expanded="true"] {
+    color: white;
+    background-color: #F08060;
+    border: 1px solid white;
+}
+
+.layer-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn.btn-custom {
+    background-color: #F08060;
+    color: white;
+    border: 1px solid #F08060;
+}
+
+.btn.btn-custom:hover {
+    background-color: #ee542a;
+    color: white;
+    border: 1px solid #ee542a;
+}
+
+.btn.btn-custom.modal-open-btn {
+    background-color: #ee542a !important;
+    border-color: #ee542a !important;
+    color: white !important;
+}
+
+.modal-title {
+    font-weight: bold;
+}
+
+.custom-color {
+    background-color: #f08060 !important;
+    color: white !important;
+}

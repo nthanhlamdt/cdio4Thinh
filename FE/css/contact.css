@@ -1,0 +1,67 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family:'Times New Roman', Times, serif ;
+    background-color: white;                                                        
+}
+
+.contact-form-container {
+    background: url(../img/background_body.png);
+    padding: 50px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-size: cover;
+    background-position: center;
+}
+
+.contact-form {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    max-width: 800px;
+    width: 100%;
+    padding: 30px;
+    border: 2px solid rgba(0, 0, 0, .5);
+}
+
+.card-header h2 {
+    font-weight: bold;
+    color: #4d2f14;
+}
+
+.form-control .text-end .btn {
+    border-radius: 10px;
+}
+
+.text-end .btn {
+    background-color: #4d2f14;
+    border: none;
+    border-radius: 12px;
+}
+
+.text-end .btn:hover {
+  background-color: #704620;
+  color: white;
+}
+
+.dropdown-menu a {
+    cursor: pointer;
+    color: #4d2f14;
+}
+.card-body b{
+    color: #4d2f14;
+
+}
+.row-info, .row-email {
+    gap: 20px;
+}
+
+.text-end b{
+    color: white;
+}
+

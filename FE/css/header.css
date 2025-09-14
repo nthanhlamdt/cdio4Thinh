@@ -1,0 +1,141 @@
+header {
+    width: 100%;
+    font-family: monospace;
+}
+
+header a img {
+    height: 80px;
+    width: auto;
+}
+
+#search-box {
+    background: white;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+#search-box input[type="search"] {
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 15px;
+    color: gray;
+    width: 150px;
+    padding: 8px 15px;
+}
+
+#search-box input[type="search"]:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+#search-box input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+}
+
+#search-box button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 18px;
+    color: gray;
+}
+
+#search-box button:focus,
+#search-box button:active {
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+#user {
+    background: #b0acac;
+    font-size: 20px;
+    padding: 10px 15px;
+    border-radius: 50px;
+}
+
+#user a {
+    color: white;
+    text-decoration: none;
+}
+
+nav.bg-light {
+    background-color: #F08060 !important;
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+nav .nav {
+    height: 100%;
+}
+
+nav.bg-light .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-link.header {
+    color: white;
+    font-size: 18px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    transition: all 0.25s ease-in-out;
+}
+
+.nav-link.header:hover,
+.nav-link.header:focus {
+    background-color: white;
+    color: #F08060 !important;
+}
+
+.nav-item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav > .nav-item.dropdown > .dropdown-menu {
+    background-color: white !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin-top: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    top: 100%
+}
+
+.nav-item.dropdown:hover > .dropdown-menu {
+    display: block !important;
+}
+
+.dropdown-menu li a {
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #F08060;
+    transition: all 0.25s ease-in-out;
+}
+
+.nav > .nav-item.dropdown > .dropdown-menu .dropdown-item:hover {
+    background-color: #F08060 !important;
+    color: white !important;
+}
+
+.fa-chevron-down {
+    font-size: 11px;
+    margin-left: 2px;
+}
