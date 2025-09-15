@@ -14,7 +14,7 @@ connection.connect(err => {
         return;
     } else {
         console.log('Kết nối thành công tới CSDL với ID:', connection.threadId);
-    }   
+    }
 });
 
 let promiseConnection = connection.promise();

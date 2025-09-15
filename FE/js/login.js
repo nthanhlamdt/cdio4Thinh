@@ -28,9 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     localStorage.setItem('user', JSON.stringify(data.data));
                     const roleName = (data.data && data.data.TENVT) ? String(data.data.TENVT).toUpperCase() : '';
                     if (roleName === 'KHACHHANG') {
-                        window.location.href = "/FE/html/home.html";
+                        window.location.href = "../html/home.html";
                     } else {
-                        window.location.href = "/FE/html/admin.html";
+                        window.location.href = "../html/admin.html";
                     }
                 } else {
                     let modal = new bootstrap.Modal(document.getElementById("loginFailModal"));
@@ -44,13 +44,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (savedUserRaw) {
         const savedUser = JSON.parse(savedUserRaw);
         const roleName = savedUser.TENVT;
-        
+
         if (roleName.toUpperCase() === 'KHACHHANG') {
-            window.location.href = "/FE/html/home.html";
+            window.location.href = "../html/home.html";
             return;
         }
         // Nếu không phải khách hàng, mặc định coi là admin/nhân viên
-        window.location.href = "/FE/html/admin.html";
+        window.location.href = "../html/admin.html";
         return;
     }
 });

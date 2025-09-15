@@ -27,12 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         credentials: 'include'
                     });
 
-                    let data = await response.json(); 
+                    let data = await response.json();
 
                     if (response.ok) {
                         if (data.success) {
                             alert(data.message || 'Đăng ký thành công!');
-                            window.location.href = '/FE/html/home.html';
+                            window.location.href = '../html/home.html';
                         } else {
                             let modal = new bootstrap.Modal(document.getElementById("registerFailModal"));
                             document.querySelector('#registerFailModal .modal-body').textContent = data.message || 'Đăng ký thất bại. Vui lòng thử lại.';

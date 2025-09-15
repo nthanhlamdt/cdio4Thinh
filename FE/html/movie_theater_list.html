@@ -65,13 +65,11 @@
                 <section class="city">
                     <span>Thành Phố:</span>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Chọn thành phố">
+                        <input type="text" class="form-control" id="cityInput" placeholder="Chọn thành phố" readonly>
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button"
                             data-bs-toggle="dropdown" aria-expanded="false"></button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item">Hồ Chí Minh</a></li>
-                            <li><a class="dropdown-item">Hà Nội</a></li>
-                            <li><a class="dropdown-item">Đà Nẵng</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end" id="cityDropdown">
+                            <!-- Dữ liệu sẽ được load từ API -->
                         </ul>
                     </div>
                 </section>

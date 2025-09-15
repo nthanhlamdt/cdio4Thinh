@@ -29,7 +29,7 @@ main {
     padding: 30px;
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    height: 1000px;
+    min-height: 1000px;
 }
 
 .layer>.d-flex h2 {
@@ -97,6 +97,8 @@ main {
 .info-aside.show-in4 .info.in4,
 .info-aside.show-film .info.film,
 .info-aside.show-showtimes .info.showtimes,
+.info-aside.show-branch .info.branch,
+.info-aside.show-room .info.room,
 .info-aside.show-admin .info.admin,
 .info-aside.show-users .info.users,
 .info-aside.show-pay .info.pay {
@@ -173,9 +175,11 @@ main {
 
 .layer-btn.next-pre,
 .layer-btn.save {
-    position: absolute;
-    bottom: 110px;
-    right: 0;
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin-top: 20px;
+    justify-content: flex-end;
 }
 
 .nxt-pre-btn,
@@ -201,8 +205,10 @@ main {
 }
 
 .table-responsive {
-    width: 1090px;
+    width: 100%;
+    max-width: 100%;
     overflow-x: auto;
+    margin-bottom: 20px;
 }
 
 .info-form {
@@ -237,8 +243,32 @@ main {
     pointer-events: none;
 }
 
-.info-box input:focus {
+.info-box input:focus,
+.info-box textarea:focus,
+.info-box select:focus {
     border-color: #F08060;
+}
+
+.info-box textarea {
+    width: 100%;
+    padding: 16px 10px 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    background: none;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.info-box select {
+    width: 100%;
+    padding: 16px 10px 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    background: white;
 }
 
 .input-group .btn {
@@ -280,4 +310,222 @@ input[readonly].readonly-input {
     background-color: #f0f0f0;
     color: #777;
     cursor: not-allowed;
+}
+
+/* Styles cho các tab mới */
+.info.branch,
+.info.room {
+    flex: 1;
+    min-width: 0;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 100%;
+    transform: translateX(50px);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Button styles cho các tab mới */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-sm {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.me-2 {
+    margin-right: 0.5rem;
+}
+
+/* ========== CẢI THIỆN GIAO DIỆN BẢNG LỊCH CHIẾU ========== */
+
+/* Cải thiện bảng lịch chiếu */
+.info.showtimes table {
+    font-size: 14px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Đảm bảo tất cả bảng có cùng màu header */
+.info.showtimes .table .custom-color,
+.info.film .table .custom-color,
+.info.branch .table .custom-color,
+.info.room .table .custom-color,
+.info.users .table .custom-color,
+.info.admin .table .custom-color,
+.info.pay .table .custom-color {
+    background-color: #f08060 !important;
+    color: white !important;
+}
+
+.info.showtimes th {
+    background-color: #f08060 !important;
+    color: white !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 15px 10px;
+    border: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.info.showtimes td {
+    padding: 12px 10px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+.info.showtimes tr:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info.showtimes .badge {
+    font-size: 11px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info.showtimes .btn-group-vertical .btn {
+    width: 100%;
+    margin-bottom: 2px;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.info.showtimes .btn-group-vertical .btn:last-child {
+    margin-bottom: 0;
+}
+
+.info.showtimes .btn-group-vertical .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Icons styling */
+.info.showtimes .fas {
+    font-size: 12px;
+}
+
+.info.showtimes .text-muted {
+    color: #6c757d !important;
+}
+
+/* Cải thiện responsive cho bảng */
+.info.showtimes .table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling cho các cột cụ thể */
+.info.showtimes td:nth-child(1) {
+    /* Mã lịch chiếu */
+    font-weight: 600;
+    color: #495057;
+}
+
+.info.showtimes td:nth-child(2) {
+    /* Tên phim */
+    font-weight: 600;
+    color: #212529;
+}
+
+.info.showtimes td:nth-child(3) {
+    /* Rạp */
+    color: #6c757d;
+}
+
+.info.showtimes td:nth-child(4) {
+    /* Phòng */
+    color: #6c757d;
+}
+
+.info.showtimes td:nth-child(5) {
+    /* Ngày */
+    color: #495057;
+}
+
+.info.showtimes td:nth-child(6) {
+    /* Giờ */
+    font-weight: 500;
+}
+
+.info.showtimes td:nth-child(7) {
+    /* Tình trạng */
+    text-align: center;
+}
+
+.info.showtimes td:nth-child(8) {
+    /* Thao tác */
+    text-align: center;
+    width: 120px;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+    .info.showtimes table {
+        font-size: 12px;
+    }
+
+    .info.showtimes th,
+    .info.showtimes td {
+        padding: 8px 5px;
+    }
+
+    .info.showtimes .btn-group-vertical .btn {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+
+    .info.showtimes .badge {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
 }

@@ -78,9 +78,17 @@
 
                         <h3 style="font-size: 14px; margin-top: 35px; opacity: 0.6;">Quản lý chương trình</h3>
                         <ul class="first-ul">
-                            <li><a href="#" class="link-film"><i class="fas fa-film"></i> Danh sách phim</a></li>
-                            <li><a href="#" class="link-showtimes"><i class="fas fa-calendar-alt"></i> Danh sách lịch
+                            <li><a href="#" class="link-film"><i class="fas fa-film"></i> Quản lý phim</a></li>
+                            <li><a href="#" class="link-showtimes"><i class="fas fa-calendar-alt"></i> Quản lý lịch
                                     chiếu</a></li>
+                        </ul>
+
+                        <h3 style="font-size: 14px; margin-top: 35px; opacity: 0.6;">Quản lý chi nhánh</h3>
+                        <ul class="first-ul">
+                            <li><a href="#" class="link-branch"><i class="fas fa-building"></i> Quản lý rạp chiếu</a>
+                            </li>
+                            <li><a href="#" class="link-room"><i class="fas fa-door-open"></i> Quản lý phòng chiếu</a>
+                            </li>
                         </ul>
 
                         <h3 style="font-size: 14px; margin-top: 35px; opacity: 0.6;">Quản lý người dùng</h3>
@@ -91,7 +99,8 @@
 
                         <h3 style="font-size: 14px; margin-top: 35px; opacity: 0.6;">Quản lý Thanh toán</h3>
                         <ul class="second-ul">
-                            <li><a href="#" class="link-pay"><i class="fa-solid fa-credit-card"></i> Danh sách thanh toán</a></li>
+                            <li><a href="#" class="link-pay"><i class="fa-solid fa-credit-card"></i> Danh sách thanh
+                                    toán</a></li>
                         </ul>
                     </aside>
 
@@ -199,9 +208,10 @@
                                         <th class="custom-color">Rated</th>
                                         <th class="custom-color">Poster Phim</th>
                                         <th class="custom-color">Tình Trạng Phim</th>
+                                        <th class="custom-color">Thao Tác</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="filmTableBody">
                                     <tr>
                                         <td><b>MP1</b></td>
                                         <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
@@ -269,70 +279,169 @@
                     </section>
 
                     <div class="modal" id="addFilmModal">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title">Thêm Phim</h4>
                                 </div>
                                 <div class="modal-body">
-
-                                    <form class="info-form" action="#">
+                                    <form class="info-form" id="addFilmForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <section class="info-box">
+                                                    <input type="text" name="tenphim" id="addTenphim"
+                                                        placeholder="Nhập Tên Phim" required>
+                                                    <label>Tên Phim *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="url" name="hinhanh" id="addHinhanh"
+                                                        placeholder="Nhập URL ảnh phim" required>
+                                                    <label>URL Ảnh Phim *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="daodien" id="addDaodien"
+                                                        placeholder="Nhập Tên Đạo Diễn">
+                                                    <label>Đạo Diễn</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="dienvien" id="addDienvien"
+                                                        placeholder="Nhập Tên Diễn Viên">
+                                                    <label>Diễn Viên</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="theloai" id="addTheloai"
+                                                        placeholder="Nhập Thể Loại">
+                                                    <label>Thể Loại</label>
+                                                </section>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <section class="info-box">
+                                                    <input type="date" name="ngaykhoichieu" id="addNgaykhoichieu">
+                                                    <label>Ngày Khởi Chiếu</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="thoiluong" id="addThoiluong"
+                                                        placeholder="Nhập Thời Lượng (phút)">
+                                                    <label>Thời Lượng (phút)</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="ngonngu" id="addNgonngu"
+                                                        placeholder="Nhập Ngôn Ngữ">
+                                                    <label>Ngôn Ngữ</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="rated" id="addRated"
+                                                        placeholder="Nhập Rated">
+                                                    <label>Rated</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <select name="matt" id="addMatt" required>
+                                                        <option value="">Chọn tình trạng phim *</option>
+                                                    </select>
+                                                    <label>Tình Trạng Phim *</label>
+                                                </section>
+                                            </div>
+                                        </div>
                                         <section class="info-box">
-                                            <input type="text" name="namefilm" id="namefilm" placeholder="Nhập Tên Phim"
-                                                value="" required>
-                                            <label>Tên Phim</label>
+                                            <textarea name="mota" id="addMota" placeholder="Nhập mô tả phim"
+                                                rows="3"></textarea>
+                                            <label>Mô Tả</label>
                                         </section>
                                         <section class="info-box">
-                                            <input type="text" name="director" id="director"
-                                                placeholder="Nhập Tên Đạo Diễn" value="" required>
-                                            <label>Đạo Diễn</label>
-                                        </section>
-                                        <section class="info-box">
-                                            <input type="text" name="performer" id="performer"
-                                                placeholder="Nhập Tên Diễn Viên" value="" required>
-                                            <label>Diễn Viên</label>
-                                        </section>
-                                        <section class="info-box">
-                                            <input type="text" name="category" id="category" placeholder="Nhập Thể Loại"
-                                                value="" required>
-                                            <label>Thể Loại</label>
-                                        </section>
-                                        <section class="info-box">
-                                            <input type="text" name="realese-date" id="realese-date"
-                                                placeholder="Nhập Ngày Khởi Chiếu (dd/mm/yyyy)" value="" required>
-                                            <label>Ngày Khởi Chiếu</label>
-                                        </section>
-                                        <section class="info-box">
-                                            <input type="text" name="duration" id="duration"
-                                                placeholder="Nhập Thời Lượng" value="" required>
-                                            <label>Thời Lượng</label>
-                                        </section>
-                                        <section class="info-box">
-                                            <input type="text" name="language" id="language" placeholder="Nhập Ngôn Ngữ"
-                                                value="" required>
-                                            <label>Ngôn Ngữ</label>
-                                        </section>
-                                        <section class="info-box">
-                                            <input type="text" name="rated" id="rated" placeholder="Nhập Rated" value=""
-                                                required>
-                                            <label>Rated</label>
-                                        </section>
-                                        <section class="input-group info-box mb-3">
-                                            <input type="text" class="form-control" placeholder="Chọn tình trạng phim">
-                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a class="dropdown-item">Đang Chiếu</a></li>
-                                                <li><a class="dropdown-item">Sắp Chiếu</a></li>
-                                            </ul>
-                                            <label>Tình Trạng Phim</label>
+                                            <input type="text" name="trailer" id="addTrailer"
+                                                placeholder="Nhập YouTube Trailer ID">
+                                            <label>YouTube Trailer ID</label>
                                         </section>
                                     </form>
                                 </div>
-
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#successAddFilmModal">Thêm</button>
+                                    <button type="button" class="btn btn-primary" id="saveFilmBtn">Thêm</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Sửa Phim -->
+                    <div class="modal" id="editFilmModal">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Sửa Phim</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="info-form" id="editFilmForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <section class="info-box">
+                                                    <input type="text" name="tenphim" id="editTenphim"
+                                                        placeholder="Nhập Tên Phim" required>
+                                                    <label>Tên Phim *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="url" name="hinhanh" id="editHinhanh"
+                                                        placeholder="Nhập URL ảnh phim" required>
+                                                    <label>URL Ảnh Phim *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="daodien" id="editDaodien"
+                                                        placeholder="Nhập Tên Đạo Diễn">
+                                                    <label>Đạo Diễn</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="dienvien" id="editDienvien"
+                                                        placeholder="Nhập Tên Diễn Viên">
+                                                    <label>Diễn Viên</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="theloai" id="editTheloai"
+                                                        placeholder="Nhập Thể Loại">
+                                                    <label>Thể Loại</label>
+                                                </section>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <section class="info-box">
+                                                    <input type="date" name="ngaykhoichieu" id="editNgaykhoichieu">
+                                                    <label>Ngày Khởi Chiếu</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="thoiluong" id="editThoiluong"
+                                                        placeholder="Nhập Thời Lượng (phút)">
+                                                    <label>Thời Lượng (phút)</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="ngonngu" id="editNgonngu"
+                                                        placeholder="Nhập Ngôn Ngữ">
+                                                    <label>Ngôn Ngữ</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="text" name="rated" id="editRated"
+                                                        placeholder="Nhập Rated">
+                                                    <label>Rated</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <select name="matt" id="editMatt" required>
+                                                        <option value="">Chọn tình trạng phim *</option>
+                                                    </select>
+                                                    <label>Tình Trạng Phim *</label>
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <section class="info-box">
+                                            <textarea name="mota" id="editMota" placeholder="Nhập mô tả phim"
+                                                rows="3"></textarea>
+                                            <label>Mô Tả</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="trailer" id="editTrailer"
+                                                placeholder="Nhập YouTube Trailer ID">
+                                            <label>YouTube Trailer ID</label>
+                                        </section>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="updateFilmBtn">Cập Nhật</button>
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Đóng</button>
                                 </div>
@@ -358,21 +467,19 @@
                                     <h4 class="modal-title">Xóa Phim</h4>
                                 </div>
                                 <div class="modal-body">
-
-                                    <form class="info-form" action="#">
-                                        <section class="info-box">
-                                            <input type="text" name="namefilm" id="namefilm" placeholder="Nhập Mã Phim"
-                                                value="" required>
-                                            <label>Mã Phim</label>
-                                        </section>
-                                    </form>
+                                    <div class="text-center">
+                                        <i class="fas fa-exclamation-triangle text-warning"
+                                            style="font-size: 3rem;"></i>
+                                        <h5 class="mt-3">Bạn có chắc chắn muốn xóa phim này?</h5>
+                                        <p class="text-muted">Hành động này không thể hoàn tác!</p>
+                                        <div class="alert alert-warning">
+                                            <strong>Lưu ý:</strong> Không thể xóa phim đã có lịch chiếu.
+                                        </div>
+                                    </div>
                                 </div>
-
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#successDeleteFilmModal">Xóa</button>
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-danger" id="confirmDeleteFilmBtn">Xóa</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                                 </div>
                             </div>
                         </div>
@@ -404,90 +511,21 @@
                         </section>
 
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped align-middle w-100">
+                            <table class="table table-bordered table-striped align-middle">
                                 <thead>
                                     <tr>
                                         <th class="custom-color">Mã Lịch Chiếu</th>
                                         <th class="custom-color">Tên Phim</th>
                                         <th class="custom-color">Tên Rạp</th>
                                         <th class="custom-color">Phòng</th>
-                                        <th class="custom-color">Thành Phố</th>
-                                        <th class="custom-color">Thời Gian</th>
+                                        <th class="custom-color">Ngày Chiếu</th>
+                                        <th class="custom-color">Giờ Chiếu</th>
+                                        <th class="custom-color">Tình Trạng</th>
+                                        <th class="custom-color">Thao Tác</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><b>LC1</b></td>
-                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
-                                        <td>PhimHay Điện Biên Phủ</td>
-                                        <td>2</td>
-                                        <td>Đà Nẵng</td>
-                                        <td>19-05-2025 16:00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>LC2</b></td>
-                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
-                                        <td>PhimHay Điện Biên Phủ</td>
-                                        <td>2</td>
-                                        <td>Đà Nẵng</td>
-                                        <td>20-05-2025 19:00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>LC3</b></td>
-                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
-                                        <td>PhimHay Điện Biên Phủ</td>
-                                        <td>2</td>
-                                        <td>Đà Nẵng</td>
-                                        <td>21-05-2025 23:00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>LC4</b></td>
-                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
-                                        <td>PhimHay Điện Biên Phủ</td>
-                                        <td>3</td>
-                                        <td>Đà Nẵng</td>
-                                        <td>19-05-2025 16:00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>LC5</b></td>
-                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
-                                        <td>PhimHay Điện Biên Phủ</td>
-                                        <td>3</td>
-                                        <td>Đà Nẵng</td>
-                                        <td>20-05-2025 19:00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>LC6</b></td>
-                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
-                                        <td>PhimHay Điện Biên Phủ</td>
-                                        <td>3</td>
-                                        <td>Đà Nẵng</td>
-                                        <td>21-05-2025 23:00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>LC7</b></td>
-                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
-                                        <td>PhimHay Điện Biên Phủ</td>
-                                        <td>1</td>
-                                        <td>Đà Nẵng</td>
-                                        <td>19-05-2025 16:00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>LC8</b></td>
-                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
-                                        <td>PhimHay Điện Biên Phủ</td>
-                                        <td>1</td>
-                                        <td>Đà Nẵng</td>
-                                        <td>20-05-2025 19:00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>LC9</b></td>
-                                        <td>Địa Đạo: Mặt Trời Trong Bóng Tối</td>
-                                        <td>PhimHay Điện Biên Phủ</td>
-                                        <td>1</td>
-                                        <td>Đà Nẵng</td>
-                                        <td>21-05-2025 23:00</td>
-                                    </tr>
+                                <tbody id="scheduleTableBody">
+                                    <!-- Dữ liệu sẽ được load từ API -->
                                 </tbody>
                             </table>
                         </div>
@@ -501,72 +539,114 @@
                     </section>
 
                     <div class="modal" id="addShowtimesModal">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title">Thêm Lịch Chiếu</h4>
                                 </div>
                                 <div class="modal-body">
-
-                                    <form class="info-form" action="#">
-                                        <section class="info-box">
-                                            <input type="text" name="namefilm" id="namefilm" placeholder="Nhập Tên Phim"
-                                                value="" required>
-                                            <label>Tên Phim</label>
-                                        </section>
-                                        <section class="input-group info-box mb-3">
-                                            <input type="text" class="form-control" placeholder="Chọn thành phố">
-                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a class="dropdown-item">Hồ Chí Minh</a></li>
-                                                <li><a class="dropdown-item">Hà Nội</a></li>
-                                                <li><a class="dropdown-item">Đà Nẵng</a></li>
-                                            </ul>
-                                            <label>Thành Phố</label>
-                                        </section>
-                                        <section class="input-group info-box mb-3">
-                                            <input type="text" class="form-control" placeholder="Chọn rạp">
-                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a class="dropdown-item">PhimHay Điện Biên Phủ</a></li>
-                                                <li><a class="dropdown-item">PhimHay Lê Duẫn</a></li>
-                                                <li><a class="dropdown-item">PhimHay Núi Thành</a></li>
-                                            </ul>
-                                            <label>Rạp</label>
-                                        </section>
-                                        <section class="input-group info-box mb-3">
-                                            <input type="text" class="form-control" placeholder="Chọn phòng">
-                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a class="dropdown-item">Rạp 1</a></li>
-                                                <li><a class="dropdown-item">Rạp 2</a></li>
-                                                <li><a class="dropdown-item">Rạp 3</a></li>
-                                                <li><a class="dropdown-item">Rạp 4</a></li>
-                                                <li><a class="dropdown-item">Rạp 5</a></li>
-                                                <li><a class="dropdown-item">Rạp 6</a></li>
-                                                <li><a class="dropdown-item">Rạp 7</a></li>
-                                            </ul>
-                                            <label>Phòng</label>
-                                        </section>
-                                        <section class="info-box">
-                                            <input type="text" name="times-" id="times"
-                                                placeholder="Nhập Ngày (dd/mm/yyyy)" value="" required>
-                                            <label>Ngày</label>
-                                        </section>
-                                        <section class="info-box">
-                                            <input type="text" name="times-" id="times" placeholder="Nhập Giờ" value=""
-                                                required>
-                                            <label>Giờ</label>
-                                        </section>
+                                    <form class="info-form" id="addScheduleForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <section class="info-box">
+                                                    <select name="maphim" id="addMaphim" required>
+                                                        <option value="">Chọn phim *</option>
+                                                    </select>
+                                                    <label>Phim *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <select name="thanhpho" id="addThanhpho" required>
+                                                        <option value="">Chọn thành phố *</option>
+                                                    </select>
+                                                    <label>Thành Phố *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <select name="marap" id="addMarap" required>
+                                                        <option value="">Chọn rạp *</option>
+                                                    </select>
+                                                    <label>Rạp *</label>
+                                                </section>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <section class="info-box">
+                                                    <select name="maphong" id="addMaphong" required>
+                                                        <option value="">Chọn phòng *</option>
+                                                    </select>
+                                                    <label>Phòng *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="date" name="ngaychieu" id="addNgaychieu" required>
+                                                    <label>Ngày Chiếu *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="time" name="giochieu" id="addGiochieu" required>
+                                                    <label>Giờ Chiếu *</label>
+                                                </section>
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
-
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#successAddShowtimesModal">Thêm</button>
+                                    <button type="button" class="btn btn-primary" id="saveScheduleBtn">Thêm</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Sửa Lịch Chiếu -->
+                    <div class="modal" id="editScheduleModal">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Sửa Lịch Chiếu</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="info-form" id="editScheduleForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <section class="info-box">
+                                                    <select name="maphim" id="editMaphim" required>
+                                                        <option value="">Chọn phim *</option>
+                                                    </select>
+                                                    <label>Phim *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <select name="thanhpho" id="editThanhpho" required>
+                                                        <option value="">Chọn thành phố *</option>
+                                                    </select>
+                                                    <label>Thành Phố *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <select name="marap" id="editMarap" required>
+                                                        <option value="">Chọn rạp *</option>
+                                                    </select>
+                                                    <label>Rạp *</label>
+                                                </section>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <section class="info-box">
+                                                    <select name="maphong" id="editMaphong" required>
+                                                        <option value="">Chọn phòng *</option>
+                                                    </select>
+                                                    <label>Phòng *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="date" name="ngaychieu" id="editNgaychieu" required>
+                                                    <label>Ngày Chiếu *</label>
+                                                </section>
+                                                <section class="info-box">
+                                                    <input type="time" name="giochieu" id="editGiochieu" required>
+                                                    <label>Giờ Chiếu *</label>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="updateScheduleBtn">Cập
+                                        Nhật</button>
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Đóng</button>
                                 </div>
@@ -592,21 +672,20 @@
                                     <h4 class="modal-title">Xóa Lịch Chiếu</h4>
                                 </div>
                                 <div class="modal-body">
-
-                                    <form class="info-form" action="#">
-                                        <section class="info-box">
-                                            <input type="text" name="namefilm" id="namefilm" placeholder="Nhập mã lịch chiếu"
-                                                value="" required>
-                                            <label>Mã Lịch Chiếu</label>
-                                        </section>
-                                    </form>
+                                    <div class="text-center">
+                                        <i class="fas fa-exclamation-triangle text-warning"
+                                            style="font-size: 3rem;"></i>
+                                        <h5 class="mt-3">Bạn có chắc chắn muốn xóa lịch chiếu này?</h5>
+                                        <p class="text-muted">Hành động này không thể hoàn tác!</p>
+                                        <div class="alert alert-warning">
+                                            <strong>Lưu ý:</strong> Không thể xóa lịch chiếu đã có vé được bán.
+                                        </div>
+                                    </div>
                                 </div>
-
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#successDeleteShowtimesModal">Xóa</button>
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-danger"
+                                        id="confirmDeleteScheduleBtn">Xóa</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                                 </div>
                             </div>
                         </div>
@@ -665,8 +744,8 @@
 
                         <section class="layer-btn add-delete">
                             <section class="group-btn">
-                                <button class="btn add-btn" data-bs-toggle="modal"
-                                    data-bs-target="#addUserModal"><i class="fas fa-plus"></i></button>
+                                <button class="btn add-btn" data-bs-toggle="modal" data-bs-target="#addUserModal"><i
+                                        class="fas fa-plus"></i></button>
                                 <button class="btn delete-btn" data-bs-toggle="modal"
                                     data-bs-target="#deleteUsersModal"><i class="fas fa-trash"></i></button>
                             </section>
@@ -708,12 +787,13 @@
                                 <div class="modal-body">
                                     <form class="info-form" id="addUserForm">
                                         <section class="info-box">
-                                            <input type="text" name="username" id="addUsername" placeholder="Nhập tên đăng nhập"
-                                                required>
+                                            <input type="text" name="username" id="addUsername"
+                                                placeholder="Nhập tên đăng nhập" required>
                                             <label>Tên Đăng Nhập</label>
                                         </section>
                                         <section class="info-box">
-                                            <input type="text" name="fullname" id="addFullname" placeholder="Nhập họ tên">
+                                            <input type="text" name="fullname" id="addFullname"
+                                                placeholder="Nhập họ tên">
                                             <label>Họ Tên</label>
                                         </section>
                                         <section class="info-box">
@@ -721,12 +801,13 @@
                                             <label>Email</label>
                                         </section>
                                         <section class="info-box">
-                                            <input type="text" name="phone" id="addPhone" placeholder="Nhập số điện thoại">
+                                            <input type="text" name="phone" id="addPhone"
+                                                placeholder="Nhập số điện thoại">
                                             <label>Số Điện Thoại</label>
                                         </section>
                                         <section class="info-box">
-                                            <input type="password" name="password" id="addPassword" placeholder="Nhập mật khẩu"
-                                                required>
+                                            <input type="password" name="password" id="addPassword"
+                                                placeholder="Nhập mật khẩu" required>
                                             <label>Mật Khẩu</label>
                                         </section>
                                         <section class="input-group info-box mb-3">
@@ -741,7 +822,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" id="saveUserBtn">Thêm</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
                                 </div>
                             </div>
                         </div>
@@ -757,11 +839,13 @@
                                 <div class="modal-body">
                                     <form class="info-form" id="editUserForm">
                                         <section class="info-box">
-                                            <input type="text" name="username" id="editUsername" readonly class="readonly-input">
+                                            <input type="text" name="username" id="editUsername" readonly
+                                                class="readonly-input">
                                             <label>Tên Đăng Nhập</label>
                                         </section>
                                         <section class="info-box">
-                                            <input type="text" name="fullname" id="editFullname" placeholder="Nhập họ tên">
+                                            <input type="text" name="fullname" id="editFullname"
+                                                placeholder="Nhập họ tên">
                                             <label>Họ Tên</label>
                                         </section>
                                         <section class="info-box">
@@ -769,11 +853,13 @@
                                             <label>Email</label>
                                         </section>
                                         <section class="info-box">
-                                            <input type="text" name="phone" id="editPhone" placeholder="Nhập số điện thoại">
+                                            <input type="text" name="phone" id="editPhone"
+                                                placeholder="Nhập số điện thoại">
                                             <label>Số Điện Thoại</label>
                                         </section>
                                         <section class="info-box">
-                                            <input type="password" name="password" id="editPassword" placeholder="Để trống nếu không đổi mật khẩu">
+                                            <input type="password" name="password" id="editPassword"
+                                                placeholder="Để trống nếu không đổi mật khẩu">
                                             <label>Mật Khẩu Mới</label>
                                         </section>
                                         <section class="input-group info-box mb-3">
@@ -787,7 +873,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" id="updateUserBtn">Cập Nhật</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
                                 </div>
                             </div>
                         </div>
@@ -802,15 +889,16 @@
                                 <div class="modal-body">
                                     <form class="info-form" action="#">
                                         <section class="info-box">
-                                            <input type="text" name="username" id="deleteUsername" placeholder="Nhập tên đăng nhập"
-                                                required>
+                                            <input type="text" name="username" id="deleteUsername"
+                                                placeholder="Nhập tên đăng nhập" required>
                                             <label>Tên Đăng Nhập</label>
                                         </section>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" id="confirmDeleteUserBtn">Xóa</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
                                 </div>
                             </div>
                         </div>
@@ -885,9 +973,230 @@
                         </section>
                     </seciton>
 
+                    <!-- Quản lý rạp chiếu -->
+                    <section class="info branch">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2 class="mb-0">Quản Lý Rạp Chiếu</h2>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBranchModal">
+                                <i class="fas fa-plus"></i> Thêm Rạp Mới
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead>
+                                    <tr>
+                                        <th class="custom-color">Mã Rạp</th>
+                                        <th class="custom-color">Tên Rạp</th>
+                                        <th class="custom-color">Địa Chỉ</th>
+                                        <th class="custom-color">Thành Phố</th>
+                                        <th class="custom-color">Thao Tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="branchTableBody">
+                                    <!-- Dữ liệu sẽ được load từ API -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Quản lý phòng chiếu -->
+                    <section class="info room">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2 class="mb-0">Quản Lý Phòng Chiếu</h2>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoomModal">
+                                <i class="fas fa-plus"></i> Thêm Phòng Mới
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead>
+                                    <tr>
+                                        <th class="custom-color">Mã Phòng</th>
+                                        <th class="custom-color">Tên Phòng</th>
+                                        <th class="custom-color">Rạp</th>
+                                        <th class="custom-color">Số Ghế</th>
+                                        <th class="custom-color">Thao Tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="roomTableBody">
+                                    <!-- Dữ liệu sẽ được load từ API -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
                 </section>
             </section>
         </section>
+
+        <!-- Modal thêm rạp chiếu -->
+        <div class="modal" id="addBranchModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Thêm Rạp Chiếu</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="info-form" id="addBranchForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <section class="info-box">
+                                        <input type="text" name="tenrap" id="addTenrap" placeholder="Nhập tên rạp"
+                                            required>
+                                        <label>Tên Rạp *</label>
+                                    </section>
+                                    <section class="info-box">
+                                        <input type="text" name="diachi" id="addDiachi" placeholder="Nhập địa chỉ"
+                                            required>
+                                        <label>Địa Chỉ *</label>
+                                    </section>
+                                </div>
+                                <div class="col-md-6">
+                                    <section class="info-box">
+                                        <select name="matp" id="addMatp" required>
+                                            <option value="">Chọn thành phố *</option>
+                                        </select>
+                                        <label>Thành Phố *</label>
+                                    </section>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="saveBranchBtn">Thêm</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal sửa rạp chiếu -->
+        <div class="modal" id="editBranchModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Sửa Rạp Chiếu</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="info-form" id="editBranchForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <section class="info-box">
+                                        <input type="text" name="tenrap" id="editTenrap" placeholder="Nhập tên rạp"
+                                            required>
+                                        <label>Tên Rạp *</label>
+                                    </section>
+                                    <section class="info-box">
+                                        <input type="text" name="diachi" id="editDiachi" placeholder="Nhập địa chỉ"
+                                            required>
+                                        <label>Địa Chỉ *</label>
+                                    </section>
+                                </div>
+                                <div class="col-md-6">
+                                    <section class="info-box">
+                                        <select name="matp" id="editMatp" required>
+                                            <option value="">Chọn thành phố *</option>
+                                        </select>
+                                        <label>Thành Phố *</label>
+                                    </section>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="updateBranchBtn">Cập Nhật</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal xóa rạp chiếu -->
+        <div class="modal" id="deleteBranchModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Xóa Rạp Chiếu</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <i class="fas fa-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+                            <h5 class="mt-3">Bạn có chắc chắn muốn xóa rạp chiếu này?</h5>
+                            <p class="text-muted">Hành động này không thể hoàn tác!</p>
+                            <div class="alert alert-warning">
+                                <strong>Lưu ý:</strong> Không thể xóa rạp chiếu đã có phòng chiếu hoặc lịch chiếu.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBranchBtn">Xóa</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal thêm phòng chiếu -->
+        <div class="modal" id="addRoomModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Thêm Phòng Chiếu</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="info-form" id="addRoomForm">
+                            <section class="info-box">
+                                <input type="text" name="tenphong" id="tenphong" placeholder="Nhập tên phòng" required>
+                                <label>Tên Phòng</label>
+                            </section>
+                            <section class="info-box">
+                                <select name="rap" id="rap" required>
+                                    <option value="">Chọn rạp</option>
+                                    <!-- Options sẽ được load từ API -->
+                                </select>
+                                <label>Rạp</label>
+                            </section>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="saveRoomBtn">Lưu</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal quản lý ghế theo phòng -->
+        <div class="modal" id="manageSeatsModal">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Quản Lý Ghế - <span id="seatsRoomTitle"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5 class="mb-3">Dãy ghế</h5>
+                                <ul class="list-group" id="rowsList">
+                                    <!-- Dãy ghế sẽ được load tại đây -->
+                                </ul>
+                            </div>
+                            <div class="col-md-8">
+                                <h5 class="mb-3">Ghế của dãy: <span id="currentRowLabel">(chọn dãy)</span></h5>
+                                <div id="seatsGrid" class="d-flex flex-wrap gap-2">
+                                    <!-- Ghế sẽ được load tại đây -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
 

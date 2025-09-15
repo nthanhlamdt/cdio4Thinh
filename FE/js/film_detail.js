@@ -108,11 +108,11 @@ async function fetchAndDisplayFilmDetails() {
                         } else {
                             console.log('DEBUG: Người dùng chưa đăng nhập (localStorage rỗng). Chuyển hướng đến trang đăng nhập.');
                             alert('Bạn chưa đăng nhập, vui lòng tới trang đăng nhập.');
-                            window.location.href = '/FE/html/login.html';
+                            window.location.href = '../html/login.html';
                         }
                     }, { once: true });
 
-                } else if (filmStatus === "TT2") { 
+                } else if (filmStatus === "TT2") {
                     console.log(`DEBUG: Phim "${film.TENPHIM}" có trạng thái "Sắp Chiếu" (TT2). Vô hiệu hóa nút "Mua Vé".`);
                     buyTicketBtn.classList.add('btn-secondary');
 
@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Auto-clean on modal hidden
-    ['myModal','seatModal','bankModal','successModal'].forEach(id => {
+    ['myModal', 'seatModal', 'bankModal', 'successModal'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
             el.addEventListener('hidden.bs.modal', cleanupModalBackdrops);
@@ -155,6 +155,156 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     fetchAndDisplayFilmDetails();
+
+    const API_BASE = 'http://localhost:3000/api';
+    const maphim = getUrlParameter('maphim');
+
+    const cityInput = document.querySelector('.city .form-control');
+    const cityMenu = document.querySelector('.city .dropdown-menu');
+    const theaterInput = document.querySelector('.theater .form-control');
+    const theaterMenu = document.querySelector('.theater .dropdown-menu');
+    // Không cần chọn phòng trong flow mua vé
+    const roomInput = { dataset: {} };
+    const roomMenu = null;
+    const showtimeInput = document.querySelector('.show-times .form-control');
+    const showtimeMenu = document.querySelector('.show-times .dropdown-menu');
+    const dateList = document.getElementById('dateList');
+
+    // Load cities to dropdown
+    async function loadCities() {
+        try {
+            const res = await fetch(`${API_BASE}/cities`);
+            const data = await res.json();
+            if (data.success) {
+                cityMenu.innerHTML = data.data.map(c => `<li><a class="dropdown-item" data-id="${c.MATP}">${c.TENTP}</a></li>`).join('');
+                bindCityEvents();
+            }
+        } catch (e) { console.error('Load cities error', e); }
+    }
+
+    function bindCityEvents() {
+        cityMenu.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', async function () {
+                const cityId = this.dataset.id;
+                cityInput.value = this.textContent.trim();
+                cityInput.dataset.id = cityId;
+                // reset below
+                theaterInput.value = ''; theaterInput.dataset.id = '';
+                showtimeInput.value = '';
+                await loadBranches(cityId);
+                // clear dates and showtimes until theater selected
+                const dateListEl = document.getElementById('dateList');
+                if (dateListEl) dateListEl.innerHTML = '';
+                const list = document.getElementById('showtimeList');
+                if (list) list.innerHTML = '';
+                showtimeMenu.innerHTML = '';
+            });
+        });
+    }
+
+    async function loadBranches(cityId) {
+        try {
+            const res = await fetch(`${API_BASE}/branches?city=${cityId}`);
+            const data = await res.json();
+            if (data.success) {
+                theaterMenu.innerHTML = data.data.map(b => `<li><a class="dropdown-item" data-id="${b.MARAP}">${b.TENRAP}</a></li>`).join('');
+                bindBranchEvents();
+            }
+        } catch (e) { console.error('Load branches error', e); }
+    }
+
+    function bindBranchEvents() {
+        theaterMenu.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', async function () {
+                if (!cityInput.dataset.id) {
+                    alert('Vui lòng chọn thành phố trước.');
+                    return;
+                }
+                const branchId = this.dataset.id;
+                theaterInput.value = this.textContent.trim();
+                theaterInput.dataset.id = branchId;
+                showtimeInput.value = '';
+                await loadShowtimes();
+            });
+        });
+    }
+
+    async function loadShowtimes() {
+        try {
+            const params = new URLSearchParams({ film: maphim });
+            // Chỉ cần branch để tránh lọc quá chặt
+            if (theaterInput.dataset.id) params.append('branch', theaterInput.dataset.id);
+            // Không cần param room
+            const url = `${API_BASE}/schedules?${params.toString()}`;
+            console.log('Loading showtimes from:', url);
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.success) {
+                const items = Array.isArray(data.data) ? data.data : [];
+                // Hiển thị ngay danh sách suất chiếu, nhóm theo ngày
+                renderGroupedShowtimes(items);
+                // Đồng thời đổ dropdown (toàn bộ giờ) để ai thích dùng cũng có
+                showtimeMenu.innerHTML = items.length ? items.map(s => {
+                    const dateStr = (typeof s.NGAYCHIEU === 'string') ? (s.NGAYCHIEU.includes('T') ? s.NGAYCHIEU.split('T')[0] : s.NGAYCHIEU) : '';
+                    const timeStr = (typeof s.GIOCHIEU === 'string') ? s.GIOCHIEU.substring(0, 5) : '';
+                    return `<li><a class="dropdown-item" data-id="${s.MALICHCHIEU}">${dateStr} ${timeStr}</a></li>`;
+                }).join('') : `<li><span class="dropdown-item text-muted">Không có suất chiếu</span></li>`;
+                bindShowtimeEvents();
+            } else {
+                console.error('Showtimes error:', data.error);
+                showtimeMenu.innerHTML = `<li><span class="dropdown-item text-danger">Lỗi tải suất chiếu</span></li>`;
+            }
+        } catch (e) { console.error('Load showtimes error', e); }
+    }
+
+    function bindShowtimeEvents() {
+        showtimeMenu.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function () {
+                showtimeInput.value = this.textContent.trim();
+                showtimeInput.dataset.id = this.dataset.id;
+            });
+        });
+    }
+
+    function renderGroupedShowtimes(items) {
+        const list = document.getElementById('showtimeList');
+        if (!list) return;
+        if (!items.length) {
+            list.innerHTML = `<div class="list-group-item text-muted">Không có suất chiếu</div>`;
+            return;
+        }
+        // Nhóm theo ngày
+        const groupMap = new Map();
+        items.forEach(s => {
+            const dateStr = (typeof s.NGAYCHIEU === 'string') ? (s.NGAYCHIEU.includes('T') ? s.NGAYCHIEU.split('T')[0] : s.NGAYCHIEU) : '';
+            if (!groupMap.has(dateStr)) groupMap.set(dateStr, []);
+            groupMap.get(dateStr).push(s);
+        });
+        // Render
+        const sections = [];
+        [...groupMap.keys()].sort().forEach(d => {
+            const dayItems = groupMap.get(d).sort((a, b) => (a.GIOCHIEU || '').localeCompare(b.GIOCHIEU || ''));
+            const timeButtons = dayItems.map(s => {
+                const t = (typeof s.GIOCHIEU === 'string') ? s.GIOCHIEU.substring(0, 5) : '';
+                const label = `${t}` + (typeof s.AVAILABLE === 'number' ? ` • còn ${s.AVAILABLE}` : '');
+                return `<button class="btn btn-outline-secondary btn-sm me-2 mb-2" data-id="${s.MALICHCHIEU}">${label}</button>`;
+            }).join('');
+            sections.push(`<div class="list-group-item"><div class="fw-bold mb-2">${d}</div><div class="d-flex flex-wrap">${timeButtons}</div></div>`);
+        });
+        list.innerHTML = sections.join('');
+        // Bind click to set showtime
+        list.querySelectorAll('button[data-id]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showtimeInput.value = btn.textContent.trim();
+                showtimeInput.dataset.id = btn.dataset.id;
+            });
+        });
+    }
+
+    // init
+    loadCities();
+    // Không tự load suất chiếu khi mở modal; chỉ load sau khi chọn rạp
 
     document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(function (item) {
         item.addEventListener('click', function (e) {
@@ -225,30 +375,74 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let registerSeatBtn = document.querySelector('.layer-btn-reservation .btn-outline-reservation');
     if (registerSeatBtn) {
-        registerSeatBtn.addEventListener('click', (event) => {
+        registerSeatBtn.addEventListener('click', async (event) => {
             event.preventDefault();
             event.stopPropagation();
 
-            let myModalEl = document.getElementById('myModal');
-            let seatModalEl = document.getElementById('seatModal');
-
-            let myModal = bootstrap.Modal.getInstance(myModalEl);
-            if (myModal) {
-                myModal.hide();
+            // Bắt buộc chọn suất chiếu
+            const showtimeId = document.querySelector('.show-times .form-control')?.dataset?.id;
+            if (!showtimeId) {
+                alert('Vui lòng chọn suất chiếu trước.');
+                return;
             }
 
-            cleanupModalBackdrops();
-            let seatModal = new bootstrap.Modal(seatModalEl);
-            seatModal.show();
+            // Tải ghế từ DB theo suất chiếu
+            try {
+                const res = await fetch(`${API_BASE}/schedules/${showtimeId}/seats`);
+                const data = await res.json();
+                if (data.success) {
+                    // Render seats vào seatMap theo DB
+                    if (seatMap) {
+                        seatMap.innerHTML = '';
+                        // Nhóm theo dãy
+                        const group = new Map();
+                        data.data.forEach(seat => {
+                            if (!group.has(seat.TENDAY)) group.set(seat.TENDAY, []);
+                            group.get(seat.TENDAY).push(seat);
+                        });
+                        // Hiển thị thống kê số lượng theo dãy
+                        const stats = document.getElementById('rowStats');
+                        if (stats) {
+                            stats.innerHTML = '';
+                            [...group.keys()].sort().forEach(row => {
+                                const seats = group.get(row);
+                                const total = seats.length;
+                                const booked = seats.filter(s => s.BOOKED === 1).length;
+                                const available = total - booked;
+                                const badge = document.createElement('span');
+                                badge.className = 'badge rounded-pill text-bg-light border';
+                                badge.textContent = `${row}: ${available}/${total}`;
+                                stats.appendChild(badge);
+                            });
+                        }
+                        [...group.keys()].sort().forEach(row => {
+                            const seats = group.get(row).sort((a, b) => a.SOGHE - b.SOGHE);
+                            seats.forEach(s => {
+                                const div = document.createElement('div');
+                                div.className = `seat text-white text-center ${s.BOOKED ? 'bg-danger' : 'bg-secondary'}`;
+                                div.textContent = `${row}${s.SOGHE}`;
+                                seatMap.appendChild(div);
+                            });
+                        });
+                    }
 
-            document.getElementById('modalFilmName').textContent = document.getElementById('filmTitle').textContent;
-            if (seatDisplay) seatDisplay.textContent = 'Chưa chọn';
-            if (totalPriceDisplay) totalPriceDisplay.textContent = '0 VND';
-            
-            seatMap.querySelectorAll('.seat.bg-primary').forEach(seat => {
-                seat.classList.remove('bg-primary');
-                seat.classList.add('bg-secondary');
-            });
+                    let myModalEl = document.getElementById('myModal');
+                    let seatModalEl = document.getElementById('seatModal');
+                    let myModal = bootstrap.Modal.getInstance(myModalEl);
+                    if (myModal) myModal.hide();
+                    cleanupModalBackdrops();
+                    let seatModal = new bootstrap.Modal(seatModalEl);
+                    seatModal.show();
+                    document.getElementById('modalFilmName').textContent = document.getElementById('filmTitle').textContent;
+                    if (seatDisplay) seatDisplay.textContent = 'Chưa chọn';
+                    if (totalPriceDisplay) totalPriceDisplay.textContent = '0 VND';
+                } else {
+                    alert('Lỗi tải ghế: ' + data.error);
+                }
+            } catch (err) {
+                console.error('Load seats error:', err);
+                alert('Lỗi tải danh sách ghế.');
+            }
         });
     }
 
@@ -268,7 +462,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     let seatModalBtnPrimary = document.querySelector('#seatModal .btn-primary');
-    if (seatModalBtnPrimary) { 
+    if (seatModalBtnPrimary) {
         seatModalBtnPrimary.addEventListener('click', function () {
             let seatModalEl = document.getElementById('seatModal');
             let bankModalEl = document.getElementById('bankModal');
@@ -329,7 +523,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     let bankModalBtnPrimary = document.querySelector('#bankModal .btn-primary');
-    if (bankModalBtnPrimary) { 
+    if (bankModalBtnPrimary) {
         bankModalBtnPrimary.addEventListener('click', function () {
             console.log('DEBUG: Đang xử lý thanh toán thực tế...');
 

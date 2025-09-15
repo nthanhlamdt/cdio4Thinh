@@ -141,25 +141,12 @@
                                                 </div>
                                             </section>
 
-                                            <section class="rooms">
-                                                <span>Phòng:</span>
-                                                <div class="input-group mb-3">
-                                                    <input type="text" class="form-control" placeholder="Chọn phòng">
-                                                    <button class="btn btn-outline-secondary dropdown-toggle"
-                                                        type="button" data-bs-toggle="dropdown"
-                                                        aria-expanded="false"></button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item">Rạp 1</a></li>
-                                                        <li><a class="dropdown-item">Rạp 2</a></li>
-                                                        <li><a class="dropdown-item">Rạp 3</a></li>
-                                                        <li><a class="dropdown-item">Rạp 4</a></li>
-                                                        <li><a class="dropdown-item">Rạp 5</a></li>
-                                                        <li><a class="dropdown-item">Rạp 6</a></li>
-                                                        <li><a class="dropdown-item">Rạp 7</a></li>
-                                                        <li><a class="dropdown-item">Rạp 8</a></li>
-                                                    </ul>
-                                                </div>
+                                            <section class="dates">
+                                                <span>Ngày:</span>
+                                                <div id="dateList" class="d-flex flex-wrap gap-2 mb-3"></div>
                                             </section>
+
+
 
                                             <section class="show-times">
                                                 <span>Suất chiếu:</span>
@@ -175,11 +162,12 @@
                                                         <li><a class="dropdown-item">21-05-2025 23:00</a></li>
                                                     </ul>
                                                 </div>
+                                                <div id="showtimeList" class="list-group"
+                                                    style="max-height: 240px; overflow:auto;"></div>
                                             </section>
 
                                             <section class="layer-btn-reservation">
-                                                <button class="btn btn-outline-reservation" type="button"
-                                                    data-bs-toggle="modal" data-bs-target="#seatModal">
+                                                <button class="btn btn-outline-reservation" type="button">
                                                     Đăng kí giữ chỗ
                                                 </button>
                                             </section>
@@ -201,6 +189,7 @@
 
                                         </div>
                                         <div class="modal-body">
+                                            <div id="rowStats" class="mb-3 d-flex flex-wrap gap-2"></div>
                                             <div class="seats-map d-grid"
                                                 style="grid-template-columns: repeat(8, 1fr); gap: 10px;">
 
@@ -371,11 +360,16 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="mb-2"><b>Phim: </b><span id="modalFilmName"></span></div>
-                                            <div class="name-theater mb-2"><b>Rạp: </b><span class="name-info"></span></div>
-                                            <div class="rooms-name mb-2"><b>Phòng: </b><span class="name-info"></span></div>
-                                            <div class="showtime-name mb-2"><b>Suất Chiếu: </b><span class="name-info"></span></div>
-                                            <div class="seat-name mb-2"><b>Ghế: </b><span class="name-info"></span></div>
-                                            <div class="money mb-2"><b>Tổng tiền: </b><span class="name-info"></span></div>
+                                            <div class="name-theater mb-2"><b>Rạp: </b><span class="name-info"></span>
+                                            </div>
+                                            <div class="rooms-name mb-2"><b>Phòng: </b><span class="name-info"></span>
+                                            </div>
+                                            <div class="showtime-name mb-2"><b>Suất Chiếu: </b><span
+                                                    class="name-info"></span></div>
+                                            <div class="seat-name mb-2"><b>Ghế: </b><span class="name-info"></span>
+                                            </div>
+                                            <div class="money mb-2"><b>Tổng tiền: </b><span class="name-info"></span>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button class="btn btn-primary">Xác Nhận Thanh Toán</button>

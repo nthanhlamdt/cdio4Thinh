@@ -11,6 +11,10 @@ let listFilmRouter = require('./routes/list_film');
 let filmDetailsRouter = require('./routes/film_detail');
 let userManagementRouter = require('./routes/user_management');
 let testDbRouter = require('./routes/test_db');
+let branchManagementRouter = require('./routes/branch_management');
+let roomManagementRouter = require('./routes/room_management');
+let scheduleManagementRouter = require('./routes/schedule_management');
+let filmManagementRouter = require('./routes/film_management');
 let cors = require('cors');
 
 let app = express();
@@ -43,6 +47,10 @@ app.use('/', listFilmRouter);
 app.use('/api', filmDetailsRouter);
 app.use('/api', userManagementRouter);
 app.use('/api', testDbRouter);
+app.use('/api', branchManagementRouter);
+app.use('/api', roomManagementRouter);
+app.use('/api', scheduleManagementRouter);
+app.use('/api', filmManagementRouter);
 
 app.get('/', function (req, res) {
     res.sendFile(path.resolve(__dirname, '../FE/html/home.html'));
@@ -54,16 +62,16 @@ app.get('/session', (req, res) => {
     console.log('Session data:', req.session);
     console.log('Headers:', req.headers);
     console.log('========================');
-    
+
     if (req.session.loggedin) {
-        res.json({ 
-            loggedIn: true, 
-            username: req.session.username, 
+        res.json({
+            loggedIn: true,
+            username: req.session.username,
             vaitro: req.session.vaitro,
-            sessionID: req.sessionID 
+            sessionID: req.sessionID
         });
     } else {
-        res.json({ 
+        res.json({
             loggedIn: false,
             sessionID: req.sessionID,
             session: req.session

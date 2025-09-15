@@ -38,19 +38,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         document.getElementById("profile-link")?.addEventListener("click", function (e) {
             e.preventDefault();
-            window.location.href = "/FE/html/info_members.html";
+            window.location.href = "../html/info_members.html";
         });
         document.getElementById("logout-btn")?.addEventListener("click", function (e) {
             e.preventDefault();
-            try { localStorage.removeItem('user'); } catch (_) {}
-            window.location.href = "/FE/html/login.html";
+            try { localStorage.removeItem('user'); } catch (_) { }
+            window.location.href = "../html/login.html";
         });
     } else {
         if (userInfo) {
             userInfo.innerHTML = `
-                <a href="/FE/html/login.html" style="color: black; text-decoration: none;">Đăng Nhập</a>
+                <a href="../html/login.html" style="color: black; text-decoration: none;">Đăng Nhập</a>
                 <span class="mx-2">/</span>
-                <a href="/FE/html/register.html" style="color: black; text-decoration: none;">Đăng Ký</a>
+                <a href="../html/register.html" style="color: black; text-decoration: none;">Đăng Ký</a>
             `;
         }
         if (userIconLink) {
