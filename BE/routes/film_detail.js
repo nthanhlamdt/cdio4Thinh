@@ -33,7 +33,6 @@ router.get('/phim/detail/:maphim', async (req, res) => {
         }
 
     } catch (error) {
-        console.error("API /phim/detail: LỖI KHI LẤY CHI TIẾT PHIM:", error);
         res.status(500).json({ success: false, message: 'Lỗi máy chủ khi lấy chi tiết phim.' });
     }
 });

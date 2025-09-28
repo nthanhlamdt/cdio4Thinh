@@ -277,6 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error loading user for edit:', error);
             showAlert('Lỗi khi tải thông tin người dùng: ' + error.message, 'error');
         }
     };
@@ -448,6 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error adding branch:', error);
             showAlert('Lỗi khi thêm rạp chiếu: ' + error.message, 'error');
         }
     });
@@ -522,6 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi khi tải dãy ghế: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error loading rows:', error);
             showAlert('Lỗi khi tải dãy ghế: ' + error.message, 'error');
         }
     }
@@ -557,6 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Click vào dãy để load ghế
             li.querySelector('.row-select').addEventListener('click', async (e) => {
                 e.preventDefault();
+                console.log('Selecting row:', row.MADAYGHE, row.TENDAY);
                 // Highlight dãy đang chọn
                 Array.from(rowsList.querySelectorAll('.list-group-item')).forEach(item => item.classList.remove('active'));
                 li.classList.add('active');
@@ -585,6 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     showAlert('Lỗi: ' + result.error, 'error');
                 }
             } catch (error) {
+                console.error('Error adding row:', error);
                 showAlert('Lỗi khi thêm dãy ghế: ' + error.message, 'error');
             }
         });
@@ -606,6 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi khi tải ghế: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error loading seats:', error);
             showAlert('Lỗi khi tải ghế: ' + error.message, 'error');
         }
     }
@@ -658,6 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     showAlert('Lỗi: ' + result.error, 'error');
                 }
             } catch (error) {
+                console.error('Error adding seat:', error);
                 showAlert('Lỗi khi thêm ghế: ' + error.message, 'error');
             }
         });
@@ -675,6 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error deleting row:', error);
             showAlert('Lỗi khi xóa dãy ghế: ' + error.message, 'error');
         }
     }
@@ -691,6 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error deleting seat:', error);
             showAlert('Lỗi khi xóa ghế: ' + error.message, 'error');
         }
     }
@@ -721,6 +730,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error adding room:', error);
             showAlert('Lỗi khi thêm phòng: ' + error.message, 'error');
         }
     });
@@ -764,7 +774,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } catch (error) {
-
+            console.error('Error loading branches for dropdown:', error);
         }
     }
 
@@ -802,6 +812,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 })
                 .catch(error => {
+                    console.error('Error adding branch:', error);
                     showAlert('Lỗi khi thêm rạp: ' + error.message, 'error');
                 });
         };
@@ -836,6 +847,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 })
                 .catch(error => {
+                    console.error('Error adding room:', error);
                     showAlert('Lỗi khi thêm phòng: ' + error.message, 'error');
                 });
         };
@@ -869,17 +881,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } catch (error) {
+            console.error('Error loading cities for branch:', error);
         }
     }
 
     // Các hàm global để có thể gọi từ HTML
     window.editBranch = async function (marap) {
         try {
+            console.log('🏢 Loading branch for editing:', marap);
             const response = await fetch(`${API_BASE}/branches/${marap}`);
             const result = await response.json();
 
             if (result.success) {
                 const branch = result.data;
+                console.log('📊 Branch data:', branch);
 
                 // Điền dữ liệu vào form sửa
                 document.getElementById('editTenrap').value = branch.TENRAP || '';
@@ -902,6 +917,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi khi tải thông tin rạp: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error loading branch:', error);
             showAlert('Lỗi khi tải thông tin rạp: ' + error.message, 'error');
         }
     };
@@ -937,6 +953,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error updating branch:', error);
             showAlert('Lỗi khi cập nhật rạp chiếu: ' + error.message, 'error');
         }
     });
@@ -966,6 +983,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error deleting branch:', error);
             showAlert('Lỗi khi xóa rạp chiếu: ' + error.message, 'error');
         }
     });
@@ -1006,6 +1024,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi khi tải thông tin phòng: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error loading room:', error);
             showAlert('Lỗi khi tải thông tin phòng: ' + error.message, 'error');
         }
     };
@@ -1026,6 +1045,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     showAlert('Lỗi: ' + result.error, 'error');
                 }
             } catch (error) {
+                console.error('Error deleting room:', error);
                 showAlert('Lỗi khi xóa phòng: ' + error.message, 'error');
             }
         }
@@ -1057,6 +1077,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error updating room:', error);
             showAlert('Lỗi khi cập nhật phòng: ' + error.message, 'error');
         }
     }
@@ -1073,6 +1094,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (result.success && result.data) {
                 displayFilms(result.data);
             } else {
+                console.error('❌ API Error:', result.error);
                 showAlert('Lỗi khi tải danh sách phim: ' + result.error, 'error');
             }
         } catch (error) {
@@ -1214,6 +1236,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (result.success) {
                 const admin = result.data;
+                console.log('📊 Admin data:', admin);
 
                 // Điền dữ liệu vào form sửa
                 document.getElementById('editAdminUsername').value = admin.TENDANGNHAP || '';
@@ -1377,6 +1400,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showAlert('Lỗi khi tải thông tin phim: ' + result.error, 'error');
             }
         } catch (error) {
+            console.error('Error loading film:', error);
             showAlert('Lỗi khi tải thông tin phim: ' + error.message, 'error');
         }
     };
@@ -1476,6 +1500,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displaySchedules(schedules) {
+        console.log('📅 Displaying schedules:', schedules);
         const tbody = document.querySelector('#scheduleTableBody') || document.querySelector('.info.showtimes tbody');
         if (tbody) {
             tbody.innerHTML = '';

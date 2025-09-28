@@ -36,6 +36,25 @@ const checkAdminAuth = async (req, res, next) => {
     }
 };
 
+// Middleware kiểm tra đăng nhập (cho user thường)
+const checkUserAuth = async (req, res, next) => {
+    try {
+        if (!req.session.loggedin) {
+            return res.status(401).json({
+                success: false,
+                error: 'Bạn cần đăng nhập để truy cập chức năng này.'
+            });
+        }
+
+        next();
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: 'Lỗi xác thực: ' + error.message
+        });
+    }
+};
+
 // GET - Lấy danh sách admin
 router.get('/admins', async (req, res) => {
     try {

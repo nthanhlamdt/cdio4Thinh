@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     modal.show();
                 }
             })
-            .catch(error => console.error("Lỗi:", error));
+            .catch(error => cnsole.error("Lỗi:", error));
     });
 
     const savedUserRaw = localStorage.getItem('user');
