@@ -62,7 +62,6 @@ router.get('/schedules', async (req, res) => {
       data: rows
     });
   } catch (error) {
-    console.error('Error fetching schedules:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải danh sách lịch chiếu'
@@ -93,7 +92,6 @@ router.get('/schedules/:malichchieu/seats', async (req, res) => {
 
     res.json({ success: true, data: rows });
   } catch (error) {
-    console.error('Error fetching seats for showtime:', error);
     res.status(500).json({ success: false, error: 'Lỗi khi tải ghế của suất chiếu' });
   }
 });
@@ -160,7 +158,6 @@ router.post('/schedules/:malichchieu/tickets', async (req, res) => {
 
     res.json({ success: true, message: 'Đặt vé thành công', data: { seats } });
   } catch (error) {
-    console.error('Error booking tickets:', error);
     res.status(500).json({ success: false, error: 'Lỗi khi đặt vé' });
   }
 });
@@ -210,7 +207,6 @@ router.post('/schedules', async (req, res) => {
       data: { MALICHCHIEU: newMalichchieu }
     });
   } catch (error) {
-    console.error('Error adding schedule:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi thêm lịch chiếu'
@@ -259,7 +255,6 @@ router.put('/schedules/:malichchieu', async (req, res) => {
       message: 'Cập nhật lịch chiếu thành công'
     });
   } catch (error) {
-    console.error('Error updating schedule:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi cập nhật lịch chiếu'
@@ -297,7 +292,6 @@ router.delete('/schedules/:malichchieu', async (req, res) => {
       message: 'Xóa lịch chiếu thành công'
     });
   } catch (error) {
-    console.error('Error deleting schedule:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi xóa lịch chiếu'
@@ -306,7 +300,7 @@ router.delete('/schedules/:malichchieu', async (req, res) => {
 });
 
 // Lấy danh sách phim cho dropdown
-router.get('/films', async (req, res) => {
+router.get('/films-for-schedule', async (req, res) => {
   try {
     const connection = await mysql.createConnection(dbConfig);
 
@@ -324,7 +318,6 @@ router.get('/films', async (req, res) => {
       data: rows
     });
   } catch (error) {
-    console.error('Error fetching films:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải danh sách phim'
@@ -363,7 +356,6 @@ router.get('/schedules/:malichchieu', async (req, res) => {
       data: rows[0]
     });
   } catch (error) {
-    console.error('Error fetching schedule:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải thông tin lịch chiếu'
@@ -390,7 +382,6 @@ router.get('/rooms', async (req, res) => {
       data: rows
     });
   } catch (error) {
-    console.error('Error fetching rooms:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải danh sách phòng'

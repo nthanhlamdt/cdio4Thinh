@@ -15,6 +15,7 @@ let branchManagementRouter = require('./routes/branch_management');
 let roomManagementRouter = require('./routes/room_management');
 let scheduleManagementRouter = require('./routes/schedule_management');
 let filmManagementRouter = require('./routes/film_management');
+let searchRouter = require('./routes/search');
 let cors = require('cors');
 
 let app = express();
@@ -51,6 +52,7 @@ app.use('/api', branchManagementRouter);
 app.use('/api', roomManagementRouter);
 app.use('/api', scheduleManagementRouter);
 app.use('/api', filmManagementRouter);
+app.use('/api', searchRouter);
 
 app.get('/', function (req, res) {
     res.sendFile(path.resolve(__dirname, '../FE/html/home.html'));
@@ -118,7 +120,6 @@ app.get('/logout', function (req, res) {
 let uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
-    console.log(`Created uploads directory at ${uploadDir}`);
 }
 
 app.listen(3000, () => {

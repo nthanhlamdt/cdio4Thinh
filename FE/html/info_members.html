@@ -28,7 +28,8 @@
                 <img src="../img/logo.png" alt="PhimHay" />
             </a>
             <form class="d-flex" id="search-box">
-                <input class="form-control me-2" type="search" placeholder="Tìm kiếm" required />
+                <input class="form-control me-2" type="search" id="search-input" placeholder="Tìm kiếm phim..."
+                    required />
                 <button class="btn btn-outline-secondary" id="search-btn" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -68,9 +69,12 @@
                     <aside class="menu">
                         <h3 style="font-size: 14px; opacity: 0.6;">Quản lý cá nhân</h3>
                         <ul>
-                            <li><a href="#" class="link-user-info"><i class="fa-solid fa-circle-info"></i> Thông tin tài khoản</a></li>
-                            <li><a href="#" class="link-user-history"><i class="fa-solid fa-ticket"></i> Lịch sử đặt vé</a></li>
-                            <li><a href="#" class="link-user-password"><i class="fa-solid fa-lock"></i> Đổi mật khẩu</a></li>
+                            <li><a href="#" class="link-user-info"><i class="fa-solid fa-circle-info"></i> Thông tin tài
+                                    khoản</a></li>
+                            <li><a href="#" class="link-user-history"><i class="fa-solid fa-ticket"></i> Lịch sử đặt
+                                    vé</a></li>
+                            <li><a href="#" class="link-user-password"><i class="fa-solid fa-lock"></i> Đổi mật khẩu</a>
+                            </li>
                         </ul>
                     </aside>
 
@@ -81,10 +85,10 @@
                         <section class="layer-info">
                             <form class="info-form" action="#">
                                 <section class="info-box">
-                                    <input type="text" name="username" id="username"
-                                        value="luulam0307" readonly class="readonly-input">
+                                    <input type="text" name="username" id="username" value="luulam0307" readonly
+                                        class="readonly-input">
                                     <label>Tên Đăng Nhập</label>
-                                </section>                            
+                                </section>
                                 <section class="info-box">
                                     <input type="text" name="fullname" id="fullname" placeholder="Nhập Họ Và Tên"
                                         value="" required>
@@ -101,8 +105,8 @@
                                     <label>Số Điện Thoại</label>
                                 </section>
                                 <section class="info-box">
-                                    <input type="password" name="password" id="password"
-                                        value="123456789" readonly class="readonly-input">
+                                    <input type="password" name="password" id="password" value="123456789" readonly
+                                        class="readonly-input">
                                     <label>Mật Khẩu</label>
                                 </section>
                                 <section class="layer-btn">
@@ -157,7 +161,7 @@
                                         <td>Chuyển khoản ngân hàng</td>
                                         <td>Đã thanh toán</td>
                                     </tr>
-                                                                      
+
                                 </tbody>
                             </table>
                         </div>
@@ -233,6 +237,7 @@
         crossorigin="anonymous"></script>
     <script src="../js/common.js"></script>
     <script src="../js/info_members.js"></script>
+    <script src="../js/search.js"></script>
 
 </body>
 

@@ -5,21 +5,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // Load danh sách thành phố từ database
     async function loadCities() {
         try {
-            console.log('🏙️ Loading cities from:', `${API_BASE}/cities`);
             const response = await fetch(`${API_BASE}/cities`);
             const result = await response.json();
 
-            console.log('📊 Cities API Response:', result);
-
             if (result.success && result.data) {
-                console.log('✅ Cities data:', result.data);
                 displayCities(result.data);
             } else {
-                console.error('❌ Cities API Error:', result.error);
                 showAlert('Lỗi khi tải danh sách thành phố: ' + result.error, 'error');
             }
         } catch (error) {
-            console.error('❌ Cities Network Error:', error);
             showAlert('Lỗi khi tải danh sách thành phố: ' + error.message, 'error');
         }
     }
@@ -50,16 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const cityName = e.target.textContent.trim();
             const cityId = e.target.dataset.cityId;
 
-            console.log(`🏙️ [UI] City selected: ${cityName} (ID: ${cityId})`);
-
             // Cập nhật input
             const cityInput = document.getElementById('cityInput');
             cityInput.value = cityName;
 
             // Lưu cityId để sử dụng sau
             cityInput.dataset.cityId = cityId;
-
-            console.log(`💾 [UI] Saved cityId to input:`, cityInput.dataset.cityId);
 
             // Đóng dropdown
             const button = document.querySelector('.dropdown-toggle');
@@ -72,25 +62,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // Load danh sách rạp theo thành phố
     async function loadBranchesByCity(cityId) {
         try {
-            console.log('🏢 Loading branches for city:', cityId);
-            console.log('🌐 API URL:', `${API_BASE}/branches?city=${cityId}`);
-
             const response = await fetch(`${API_BASE}/branches?city=${cityId}`);
-            console.log('📡 Response status:', response.status);
-            console.log('📡 Response headers:', response.headers);
 
             const result = await response.json();
-            console.log('📊 API Response:', result);
 
             if (result.success) {
-                console.log('✅ Successfully loaded branches:', result.data);
                 displayBranches(result.data);
             } else {
-                console.error('❌ API Error:', result.error);
                 showAlert('Lỗi khi tải danh sách rạp: ' + result.error, 'error');
             }
         } catch (error) {
-            console.error('❌ Network Error:', error);
             showAlert('Lỗi khi tải danh sách rạp: ' + error.message, 'error');
         }
     }
@@ -122,17 +103,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const cityInput = document.getElementById('cityInput');
         const cityId = cityInput.dataset.cityId;
 
-        console.log('🔘 [UI] Button clicked');
-        console.log('🏙️ [UI] City input value:', cityInput.value);
-        console.log('🆔 [UI] City ID from dataset:', cityId);
-
         if (!cityId) {
-            console.log('⚠️ [UI] No city selected');
             showAlert('Vui lòng chọn thành phố trước!', 'warning');
             return;
         }
 
-        console.log('✅ [UI] Proceeding to load branches for city:', cityId);
         loadBranchesByCity(cityId);
     });
 

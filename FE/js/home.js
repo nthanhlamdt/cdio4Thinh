@@ -18,8 +18,8 @@ async function loadSliderImages() {
 
         if (slides.length > 0) {
             slides[0].classList.add('active');
-            document.querySelectorAll('.dots li')[0]?.classList.add('active'); 
-            currentSlide = 0; 
+            document.querySelectorAll('.dots li')[0]?.classList.add('active');
+            currentSlide = 0;
         }
 
         setupSliderControls();
@@ -60,7 +60,7 @@ function createSlide(url, index) {
     editBtn.textContent = '✏️ Sửa';
     editBtn.addEventListener('click', async (e) => {
         e.preventDefault();
-        e.stopPropagation(); 
+        e.stopPropagation();
 
         let fileInput = document.createElement('input');
         fileInput.type = 'file';
@@ -91,7 +91,6 @@ function createSlide(url, index) {
                     alert("Sửa ảnh thất bại: " + (result.message || "Lỗi không xác định"));
                 }
             } catch (err) {
-                console.error("Lỗi khi sửa ảnh:", err);
                 alert("Lỗi khi sửa ảnh: " + err.message);
             }
         };
@@ -142,7 +141,6 @@ function createSlide(url, index) {
                 alert("Xóa ảnh thất bại: " + (result.message || "Lỗi không xác định"));
             }
         } catch (err) {
-            console.error("Lỗi khi xóa ảnh:", err);
             alert("Lỗi khi xóa ảnh: " + err.message);
         }
     });
@@ -212,8 +210,6 @@ function setupSliderControls() {
     let nextBtn = document.getElementById("next");
     if (sliderContainer && nextBtn) {
         sliderContainer.insertBefore(controlWrapper, nextBtn);
-    } else {
-        console.warn("Could not find .slider-controls or #next to insert addBtn.");
     }
 }
 
@@ -235,7 +231,6 @@ function restartAutoSlide() {
 function setupAddImageButton() {
     let addBtn = document.getElementById("add-image-btn");
     if (!addBtn) {
-        console.warn("Add image button not found.");
         return;
     }
     addBtn.addEventListener("click", () => {
@@ -269,7 +264,6 @@ function setupAddImageButton() {
                     alert("Tải ảnh thất bại: " + (result.message || "Lỗi không xác định"));
                 }
             } catch (err) {
-                console.error("Lỗi khi thêm ảnh:", err);
                 alert("Lỗi khi thêm ảnh: " + err.message);
             }
         };
@@ -285,22 +279,17 @@ async function checkUserRoleAndUpdateUI() {
         let editBtns = document.querySelectorAll('.btn-edit');
         let deleteBtns = document.querySelectorAll('.btn-delete');
 
-        console.log("DEBUG: checkUserRoleAndUpdateUI - LoggedIn:", data.loggedIn, "Role:", data.vaitro);
-
         if (data.loggedIn && data.vaitro === 'MAVT1') {
-            console.log("DEBUG: User is Admin. Showing controls.");
             if (addBtnContainer) addBtnContainer.style.display = 'block';
             editBtns.forEach(btn => btn.style.display = 'block');
             deleteBtns.forEach(btn => btn.style.display = 'block');
 
         } else {
-            console.log("DEBUG: User is NOT Admin. Hiding controls.");
             if (addBtnContainer) addBtnContainer.style.display = 'none';
             editBtns.forEach(btn => btn.style.display = 'none');
             deleteBtns.forEach(btn => btn.style.display = 'none');
         }
     } catch (error) {
-        console.error('DEBUG: Lỗi khi lấy thông tin session:', error);
         let addBtnContainer = document.querySelector('.edit-controls');
         let editBtns = document.querySelectorAll('.btn-edit');
         let deleteBtns = document.querySelectorAll('.btn-delete');
@@ -314,22 +303,17 @@ async function checkUserRoleAndUpdateUI() {
 async function fetchAndDisplayFilms(matt, containerElementId) {
     let containerElement = document.getElementById(containerElementId);
     if (!containerElement) {
-        console.error(`ERROR: Container element with ID "${containerElementId}" not found.`);
         return;
     }
-    console.log(`DEBUG: [fetchAndDisplayFilms] Đang fetch phim cho MATT: ${matt} vào container: ${containerElementId}`); 
 
     try {
         let response = await fetch(`http://localhost:3000/film_preview/status/${matt}`);
         let data = await response.json();
-        console.log('DEBUG: [fetchAndDisplayFilms] Dữ liệu nhận được từ API:', data); 
 
         if (data.success && data.films && data.films.length > 0) {
-            console.log(`DEBUG: [fetchAndDisplayFilms] Tìm thấy ${data.films.length} phim cho MATT ${matt}. Đang render...`); 
-            containerElement.innerHTML = ''; 
+            containerElement.innerHTML = '';
 
             let filmsToDisplay = data.films.slice(0, 8);
-            console.log('DEBUG: [fetchAndDisplayFilms] Phim sẽ hiển thị (sau slice):', filmsToDisplay); 
 
             filmsToDisplay.forEach(film => {
                 let filmHtml = `
@@ -342,13 +326,10 @@ async function fetchAndDisplayFilms(matt, containerElementId) {
                 `;
                 containerElement.innerHTML += filmHtml;
             });
-            console.log('DEBUG: [fetchAndDisplayFilms] Đã hoàn thành rendering phim.');
         } else {
-            console.log(`DEBUG: [fetchAndDisplayFilms] Không có phim hoặc lỗi cho MATT ${matt}.`); 
             containerElement.innerHTML = '<p class="text-center w-100">Không có phim nào để hiển thị.</p>';
         }
     } catch (error) {
-        console.error(`ERROR: [fetchAndDisplayFilms] Lỗi trong fetchAndDisplayFilms cho MATT ${matt}:`, error);
         containerElement.innerHTML = '<p class="text-center w-100 text-danger">Có lỗi xảy ra khi tải phim.</p>';
     }
 }
@@ -357,21 +338,15 @@ async function fetchAndDisplayFilms(matt, containerElementId) {
 function setupFilmTabs() {
     let reviewingLink = document.querySelector('.link-film-reviewing');
     let upcomingLink = document.querySelector('.link-film-upcoming');
-    let filmContainer = document.querySelector('.film'); 
+    let filmContainer = document.querySelector('.film');
 
     let phimDangChieuContainer = document.getElementById('phimDangChieuContainer');
     let phimSapChieuContainer = document.getElementById('phimSapChieuContainer');
-    
-    console.log("DEBUG: [setupFilmTabs] Khởi tạo tabs."); 
+
 
     function activateTab(isReviewing) {
-        console.log(`DEBUG: [activateTab] Kích hoạt tab: ${isReviewing ? 'Đang chiếu' : 'Sắp chiếu'}`); 
-
         if (reviewingLink) reviewingLink.classList.toggle('active', isReviewing);
         if (upcomingLink) upcomingLink.classList.toggle('active', !isReviewing);
-
-        console.log(`DEBUG: [activateTab] Displaying phimDangChieuContainer: ${isReviewing ? 'flex' : 'none'}`);
-        console.log(`DEBUG: [activateTab] Displaying phimSapChieuContainer: ${isReviewing ? 'none' : 'flex'}`);
 
         if (phimDangChieuContainer) phimDangChieuContainer.style.display = isReviewing ? 'flex' : 'none';
         if (phimSapChieuContainer) phimSapChieuContainer.style.display = isReviewing ? 'none' : 'flex';

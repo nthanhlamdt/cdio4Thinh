@@ -18,42 +18,17 @@
 <body>
 
     <header class="bg-white shadow-sm">
-        <div class="top-bar text-white py-2" style="background-color: #f4f4f4;">
-            <div id="user-info" class="container d-flex justify-content-end align-items-center" style="color: black;">
-
-            </div>
-        </div>
         <div class="container py-3 d-flex justify-content-between align-items-center">
             <a href="../html/home.html">
                 <img src="../img/logo.png" alt="PhimHay" />
             </a>
-            <form class="d-flex" id="search-box">
-                <input class="form-control me-2" type="search" placeholder="Tìm kiếm" required />
-                <button class="btn btn-outline-secondary" id="search-btn" type="submit">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+            <div class="d-flex align-items-center">
+                <span class="me-3 text-muted" id="adminGreeting">Xin chào, Admin</span>
+                <button class="btn btn-outline-danger btn-sm" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-1"></i>Đăng xuất
                 </button>
-            </form>
-            <a href="../html/login.html" class="user-icon-link text-dark">
-                <i class="fa-solid fa-user fs-4"></i>
-            </a>
-        </div>
-
-        <nav class="nav bg-light border-top border-bottom">
-            <div class="container">
-                <ul class="nav nav-bar justify-content-center">
-                    <li class="nav-item"><a class="nav-link header" href="../html/home.html">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link header" href="../html/movie_theater_list.html">Rạp</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link header dropdown-toggle" href="#">Phim</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../html/film_reviewing.html">Phim Đang Chiếu</a></li>
-                            <li><a class="dropdown-item" href="../html/film_upcoming.html">Phim Sắp Chiếu</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link header" href="../html/contact.html">Liên Hệ</a></li>
-                </ul>
             </div>
-        </nav>
+        </div>
     </header>
 
     <main>
@@ -704,8 +679,17 @@
 
                     <section class="info admin">
                         <div class="d-flex mb-4">
-                            <h2 class="mb-0">Danh Sách Admin</h2>
+                            <h2 class="mb-0">Quản Lý Quản Trị Viên</h2>
                         </div>
+
+                        <section class="layer-btn add-delete">
+                            <section class="group-btn">
+                                <button class="btn add-btn" data-bs-toggle="modal" data-bs-target="#addAdminModal"><i
+                                        class="fas fa-plus"></i></button>
+                                <button class="btn delete-btn" data-bs-toggle="modal"
+                                    data-bs-target="#deleteAdminsModal"><i class="fas fa-trash"></i></button>
+                            </section>
+                        </section>
 
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped align-middle">
@@ -715,15 +699,12 @@
                                         <th class="custom-color">Tên Đăng Nhập</th>
                                         <th class="custom-color">Email</th>
                                         <th class="custom-color">Họ Tên</th>
+                                        <th class="custom-color">Số Điện Thoại</th>
+                                        <th class="custom-color">Thao Tác</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><b>ND2</b></td>
-                                        <td>admin1</td>
-                                        <td>hoangvanphong@dtu.edu.vn</td>
-                                        <td>Hoàng Văn Phong</td>
-                                    </tr>
+                                <tbody id="adminsTableBody">
+                                    <!-- Dữ liệu sẽ được load từ JavaScript -->
                                 </tbody>
                             </table>
                         </div>
@@ -739,7 +720,7 @@
 
                     <section class="info users">
                         <div class="d-flex mb-4">
-                            <h2 class="mb-0">Danh Sách Thành Viên</h2>
+                            <h2 class="mb-0">Quản Lý Tài Khoản Người Dùng</h2>
                         </div>
 
                         <section class="layer-btn add-delete">
@@ -897,6 +878,123 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" id="confirmDeleteUserBtn">Xóa</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Thêm Admin -->
+                    <div class="modal" id="addAdminModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Thêm Quản Trị Viên</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="info-form" id="addAdminForm">
+                                        <section class="info-box">
+                                            <input type="text" name="TENDANGNHAP" id="addAdminUsername"
+                                                placeholder="Nhập tên đăng nhập" required>
+                                            <label>Tên Đăng Nhập *</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="password" name="MATKHAU" id="addAdminPassword"
+                                                placeholder="Nhập mật khẩu" required>
+                                            <label>Mật Khẩu *</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="HOTEN" id="addAdminHoten"
+                                                placeholder="Nhập họ tên">
+                                            <label>Họ Tên</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="email" name="EMAIL" id="addAdminEmail"
+                                                placeholder="Nhập email">
+                                            <label>Email</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="tel" name="SDT" id="addAdminSdt"
+                                                placeholder="Nhập số điện thoại">
+                                            <label>Số Điện Thoại</label>
+                                        </section>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="confirmAddAdminBtn">Thêm</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Sửa Admin -->
+                    <div class="modal" id="editAdminModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Sửa Thông Tin Quản Trị Viên</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="info-form" id="editAdminForm">
+                                        <section class="info-box">
+                                            <input type="text" name="TENDANGNHAP" id="editAdminUsername"
+                                                placeholder="Tên đăng nhập" readonly>
+                                            <label>Tên Đăng Nhập</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="password" name="MATKHAU" id="editAdminPassword"
+                                                placeholder="Để trống nếu không đổi mật khẩu">
+                                            <label>Mật Khẩu Mới</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="text" name="HOTEN" id="editAdminHoten"
+                                                placeholder="Nhập họ tên">
+                                            <label>Họ Tên</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="email" name="EMAIL" id="editAdminEmail"
+                                                placeholder="Nhập email">
+                                            <label>Email</label>
+                                        </section>
+                                        <section class="info-box">
+                                            <input type="tel" name="SDT" id="editAdminSdt"
+                                                placeholder="Nhập số điện thoại">
+                                            <label>Số Điện Thoại</label>
+                                        </section>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="confirmEditAdminBtn">Cập
+                                        Nhật</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Xóa Admin -->
+                    <div class="modal" id="deleteAdminsModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Xóa Quản Trị Viên</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="info-form" action="#">
+                                        <section class="info-box">
+                                            <input type="text" name="username" id="deleteAdminUsername"
+                                                placeholder="Nhập tên đăng nhập" required>
+                                            <label>Tên Đăng Nhập</label>
+                                        </section>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary"
+                                        id="confirmDeleteAdminBtn">Xóa</button>
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Đóng</button>
                                 </div>
@@ -1231,6 +1329,48 @@
         crossorigin="anonymous"></script>
     <script src="../js/common.js"></script>
     <script src="../js/admin.js"></script>
+    <script>
+        // Load admin name when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            loadAdminInfo();
+        });
+
+        function loadAdminInfo() {
+            const adminUser = localStorage.getItem('user');
+            const greetingElement = document.getElementById('adminGreeting');
+
+            if (adminUser) {
+                try {
+                    const userData = JSON.parse(adminUser);
+                    const adminName = userData.HOTEN || userData.TENDANGNHAP || 'Admin';
+                    greetingElement.textContent = `Xin chào, ${adminName}`;
+                } catch (error) {
+                    greetingElement.textContent = 'Xin chào, Admin';
+                }
+            } else {
+                // If no admin data, try to get from current user info
+                const currentUser = localStorage.getItem('currentUser');
+                if (currentUser) {
+                    try {
+                        const userData = JSON.parse(currentUser);
+                        const userName = userData.HOTEN || userData.TENDANGNHAP || 'Admin';
+                        greetingElement.textContent = `Xin chào, ${userName}`;
+                    } catch (error) {
+                        greetingElement.textContent = 'Xin chào, Admin';
+                    }
+                }
+            }
+        }
+
+        function logout() {
+            if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+                // Xóa thông tin đăng nhập khỏi localStorage
+                localStorage.removeItem('user');
+                // Chuyển hướng về trang đăng nhập
+                window.location.href = '../html/login.html';
+            }
+        }
+    </script>
 
 </body>
 

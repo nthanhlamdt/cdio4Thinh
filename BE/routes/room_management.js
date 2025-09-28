@@ -34,7 +34,6 @@ router.get('/rooms', async (req, res) => {
       data: rows
     });
   } catch (error) {
-    console.error('Error fetching rooms:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải danh sách phòng chiếu'
@@ -65,7 +64,6 @@ router.get('/rooms/:maphong/rows', async (req, res) => {
 
     res.json({ success: true, data: rows });
   } catch (error) {
-    console.error('Error fetching rows:', error);
     res.status(500).json({ success: false, error: 'Lỗi khi tải danh sách dãy ghế' });
   }
 });
@@ -92,7 +90,6 @@ router.post('/rows', async (req, res) => {
 
     res.json({ success: true, data: { MADAYGHE: newMadayghe } });
   } catch (error) {
-    console.error('Error adding row:', error);
     res.status(500).json({ success: false, error: 'Lỗi khi thêm dãy ghế' });
   }
 });
@@ -110,7 +107,6 @@ router.delete('/rows/:madayghe', async (req, res) => {
 
     res.json({ success: true, message: 'Xóa dãy ghế thành công' });
   } catch (error) {
-    console.error('Error deleting row:', error);
     res.status(500).json({ success: false, error: 'Lỗi khi xóa dãy ghế' });
   }
 });
@@ -130,7 +126,6 @@ router.get('/rows/:madayghe/seats', async (req, res) => {
 
     res.json({ success: true, data: rows });
   } catch (error) {
-    console.error('Error fetching seats:', error);
     res.status(500).json({ success: false, error: 'Lỗi khi tải danh sách ghế' });
   }
 });
@@ -167,7 +162,6 @@ router.post('/seats', async (req, res) => {
 
     res.json({ success: true, data: { MAGHE: newMaghe } });
   } catch (error) {
-    console.error('Error adding seat:', error);
     res.status(500).json({ success: false, error: 'Lỗi khi thêm ghế' });
   }
 });
@@ -191,7 +185,6 @@ router.delete('/seats/:maghe', async (req, res) => {
 
     res.json({ success: true, message: 'Xóa ghế thành công' });
   } catch (error) {
-    console.error('Error deleting seat:', error);
     res.status(500).json({ success: false, error: 'Lỗi khi xóa ghế' });
   }
 });
@@ -240,7 +233,6 @@ router.post('/rooms', async (req, res) => {
       data: { MAPHONG: newMaphong }
     });
   } catch (error) {
-    console.error('Error adding room:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi thêm phòng chiếu'
@@ -288,7 +280,6 @@ router.put('/rooms/:maphong', async (req, res) => {
       message: 'Cập nhật phòng chiếu thành công'
     });
   } catch (error) {
-    console.error('Error updating room:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi cập nhật phòng chiếu'
@@ -334,7 +325,6 @@ router.delete('/rooms/:maphong', async (req, res) => {
       message: 'Xóa phòng chiếu thành công'
     });
   } catch (error) {
-    console.error('Error deleting room:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi xóa phòng chiếu'
@@ -369,7 +359,6 @@ router.get('/rooms/:maphong', async (req, res) => {
       data: rows[0]
     });
   } catch (error) {
-    console.error('Error fetching room:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải thông tin phòng chiếu'
@@ -391,7 +380,6 @@ router.get('/branches', async (req, res) => {
       data: rows
     });
   } catch (error) {
-    console.error('Error fetching branches:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải danh sách rạp'
@@ -430,7 +418,6 @@ router.get('/rooms', async (req, res) => {
       data: rows
     });
   } catch (error) {
-    console.error('Error fetching rooms:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải danh sách phòng'

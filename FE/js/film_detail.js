@@ -9,17 +9,13 @@ async function fetchAndDisplayFilmDetails() {
     let maphim = getUrlParameter('maphim');
 
     if (!maphim) {
-        console.error("LỖI: Không tìm thấy MAPHIM trong URL.");
         document.querySelector('.film-detail').innerHTML = '<p class="text-center w-100 text-danger">Không tìm thấy mã phim trong URL.</p>';
         return;
     }
 
-    console.log(`DEBUG: Đang lấy chi tiết phim cho MAPHIM: ${maphim}`);
-
     try {
         let response = await fetch(`http://localhost:3000/api/phim/detail/${maphim}`);
         let data = await response.json();
-        console.log('DEBUG: Dữ liệu chi tiết phim nhận được:', data);
 
         if (data.success && data.film) {
             let film = data.film;
@@ -80,21 +76,20 @@ async function fetchAndDisplayFilmDetails() {
             let buyTicketBtn = document.getElementById('buyTicketBtn');
             if (buyTicketBtn) {
                 let filmStatus = film.MATT;
-                console.log(`DEBUG: Trạng thái phim từ backend (film.MATT): "${filmStatus}"`);
-                console.log(`DEBUG: Classlist của nút TRƯỚC khi thay đổi:`, buyTicketBtn.classList);
 
                 buyTicketBtn.classList.remove('btn-primary', 'btn-secondary');
 
                 if (filmStatus === "TT1") {
-                    console.log(`DEBUG: Phim "${film.TENPHIM}" có trạng thái "Đang Chiếu" (TT1). Kích hoạt nút "Mua Vé".`);
                     buyTicketBtn.classList.add('btn-primary');
 
                     buyTicketBtn.textContent = 'Mua Vé';
                     buyTicketBtn.disabled = false;
 
-                    buyTicketBtn.addEventListener('click', async (event) => {
-                        console.log('DEBUG: Nút "Mua Vé" (kích hoạt) được nhấn.');
+                    // Remove any existing click event listeners by removing all event listeners
+                    buyTicketBtn.replaceWith(buyTicketBtn.cloneNode(true));
+                    buyTicketBtn = document.getElementById('buyTicketBtn');
 
+                    buyTicketBtn.addEventListener('click', async (event) => {
                         event.preventDefault();
                         event.stopPropagation();
 
@@ -102,57 +97,70 @@ async function fetchAndDisplayFilmDetails() {
                         try { savedUser = JSON.parse(localStorage.getItem('user')); } catch (_) { savedUser = null; }
 
                         if (savedUser) {
-                            console.log('DEBUG: Người dùng đã đăng nhập (localStorage). Hiển thị modal chọn suất chiếu.');
+                            cleanupModalBackdrops();
+
                             let myModal = new bootstrap.Modal(document.getElementById('myModal'));
                             myModal.show();
                         } else {
-                            console.log('DEBUG: Người dùng chưa đăng nhập (localStorage rỗng). Chuyển hướng đến trang đăng nhập.');
                             alert('Bạn chưa đăng nhập, vui lòng tới trang đăng nhập.');
                             window.location.href = '../html/login.html';
                         }
-                    }, { once: true });
+                    });
 
                 } else if (filmStatus === "TT2") {
-                    console.log(`DEBUG: Phim "${film.TENPHIM}" có trạng thái "Sắp Chiếu" (TT2). Vô hiệu hóa nút "Mua Vé".`);
                     buyTicketBtn.classList.add('btn-secondary');
 
                     buyTicketBtn.textContent = 'Sắp Chiếu';
                     buyTicketBtn.disabled = true;
 
                 } else {
-                    console.warn(`CẢNH BÁO: Phim "${film.TENPHIM}" có trạng thái không xác định: "${filmStatus}". Nút "Mua Vé" sẽ bị vô hiệu hóa.`);
                     buyTicketBtn.classList.add('btn-secondary');
                     buyTicketBtn.textContent = 'Không có sẵn';
                     buyTicketBtn.disabled = true;
                 }
-                console.log(`DEBUG: Classlist của nút SAU KHI thay đổi:`, buyTicketBtn.classList);
             }
 
         } else {
-            console.log(`DEBUG: Backend trả về success: false hoặc không có film data.`);
             document.querySelector('.film-detail').innerHTML = `<p class="text-center w-100 text-danger">Không tìm thấy thông tin chi tiết cho phim có mã ${maphim}.</p>`;
         }
     } catch (error) {
-        console.error(`LỖI: Lỗi khi lấy chi tiết phim ${maphim}:`, error);
         document.querySelector('.film-detail').innerHTML = '<p class="text-center w-100 text-danger">Có lỗi xảy ra khi tải chi tiết phim.</p>';
     }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Cleanup any stray Bootstrap modal backdrops/body state
-    function cleanupModalBackdrops() {
-        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-        document.body.classList.remove('modal-open');
-        document.body.style.removeProperty('padding-right');
-    }
+// Cleanup any stray Bootstrap modal backdrops/body state
+function cleanupModalBackdrops() {
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    document.body.classList.remove('modal-open');
+    document.body.style.removeProperty('padding-right');
+}
 
-    // Auto-clean on modal hidden
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    // Auto-clean on modal hidden and dispose modal instances
     ['myModal', 'seatModal', 'bankModal', 'successModal'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-            el.addEventListener('hidden.bs.modal', cleanupModalBackdrops);
+            el.addEventListener('hidden.bs.modal', function () {
+                cleanupModalBackdrops();
+                // Dispose the modal instance when hidden
+                const modalInstance = bootstrap.Modal.getInstance(el);
+                if (modalInstance) {
+                    modalInstance.dispose();
+                }
+            });
         }
     });
+
+    // Ensure modal can be reopened after being closed
+    const myModalEl = document.getElementById('myModal');
+    if (myModalEl) {
+        myModalEl.addEventListener('hidden.bs.modal', function () {
+            // Reset modal state when closed
+            cleanupModalBackdrops();
+        });
+    }
 
     fetchAndDisplayFilmDetails();
 
@@ -236,7 +244,6 @@ document.addEventListener("DOMContentLoaded", function () {
             if (theaterInput.dataset.id) params.append('branch', theaterInput.dataset.id);
             // Không cần param room
             const url = `${API_BASE}/schedules?${params.toString()}`;
-            console.log('Loading showtimes from:', url);
             const res = await fetch(url);
             const data = await res.json();
             if (data.success) {
@@ -251,7 +258,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }).join('') : `<li><span class="dropdown-item text-muted">Không có suất chiếu</span></li>`;
                 bindShowtimeEvents();
             } else {
-                console.error('Showtimes error:', data.error);
                 showtimeMenu.innerHTML = `<li><span class="dropdown-item text-danger">Lỗi tải suất chiếu</span></li>`;
             }
         } catch (e) { console.error('Load showtimes error', e); }
@@ -431,6 +437,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     let myModal = bootstrap.Modal.getInstance(myModalEl);
                     if (myModal) myModal.hide();
                     cleanupModalBackdrops();
+
                     let seatModal = new bootstrap.Modal(seatModalEl);
                     seatModal.show();
                     document.getElementById('modalFilmName').textContent = document.getElementById('filmTitle').textContent;
@@ -440,7 +447,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert('Lỗi tải ghế: ' + data.error);
                 }
             } catch (err) {
-                console.error('Load seats error:', err);
                 alert('Lỗi tải danh sách ghế.');
             }
         });
@@ -456,6 +462,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (seatModal) seatModal.hide();
 
             cleanupModalBackdrops();
+
             let myModal = new bootstrap.Modal(myModalEl);
             myModal.show();
         });
@@ -501,6 +508,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (bankModalMoney) bankModalMoney.textContent = total;
 
             cleanupModalBackdrops();
+
             let bankModal = new bootstrap.Modal(bankModalEl);
             bankModal.show();
         });
@@ -516,6 +524,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (bankModal) bankModal.hide();
 
             cleanupModalBackdrops();
+
             let seatModal = new bootstrap.Modal(seatModalEl);
             seatModal.show();
         });
@@ -525,7 +534,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let bankModalBtnPrimary = document.querySelector('#bankModal .btn-primary');
     if (bankModalBtnPrimary) {
         bankModalBtnPrimary.addEventListener('click', function () {
-            console.log('DEBUG: Đang xử lý thanh toán thực tế...');
 
             let bankModalEl = document.getElementById('bankModal');
             let bankModal = bootstrap.Modal.getInstance(bankModalEl);
@@ -533,6 +541,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let successModalEl = document.getElementById('successModal');
             cleanupModalBackdrops();
+
             let successModal = new bootstrap.Modal(successModalEl);
             successModal.show();
         });
@@ -556,7 +565,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.city .dropdown-item').forEach(item => {
         item.addEventListener('click', function () {
             let selected = this.textContent.trim();
-            console.log(`DEBUG: Thành phố được chọn: ${selected}`);
         });
     });
 });

@@ -27,11 +27,11 @@ router.get('/films', async (req, res) => {
 
     const [rows] = await connection.execute(`
             SELECT p.MAPHIM, p.TENPHIM, p.HINH_ANH_URL, tt.TENTT,
-                   COALESCE(ct.DAODIEN, 'N/A') as DAODIEN, 
-                   COALESCE(ct.DIENVIEN, 'N/A') as DIENVIEN, 
-                   COALESCE(ct.THELOAI, 'N/A') as THELOAI, 
-                   COALESCE(ct.NGONNGU, 'N/A') as NGONNGU, 
-                   COALESCE(ct.RATED, 'N/A') as RATED
+                   COALESCE(ct.DAODIEN, 'Chưa cập nhật') as DAODIEN, 
+                   COALESCE(ct.DIENVIEN, 'Chưa cập nhật') as DIENVIEN, 
+                   COALESCE(ct.THELOAI, 'Chưa cập nhật') as THELOAI, 
+                   COALESCE(ct.NGONNGU, 'Chưa cập nhật') as NGONNGU, 
+                   COALESCE(ct.RATED, 'Chưa cập nhật') as RATED
             FROM PHIM p
             LEFT JOIN TINHTRANGPHIM tt ON p.MATT = tt.MATT
             LEFT JOIN CHITIETPHIM ct ON p.MAPHIM = ct.MAPHIM
@@ -41,6 +41,11 @@ router.get('/films', async (req, res) => {
     console.log('📊 Query result:', rows.length, 'films');
     if (rows.length > 0) {
       console.log('🎬 First film:', rows[0]);
+      console.log('🎬 Sample data check:');
+      console.log('  - DAODIEN:', rows[0].DAODIEN);
+      console.log('  - THELOAI:', rows[0].THELOAI);
+      console.log('  - NGONNGU:', rows[0].NGONNGU);
+      console.log('  - RATED:', rows[0].RATED);
     }
 
     await connection.end();

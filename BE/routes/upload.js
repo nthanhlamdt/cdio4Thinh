@@ -13,7 +13,7 @@ let storage = multer.diskStorage({
 });
 let upload = multer({ storage });
 
-router.post('/upload', upload.single('image'), async (req, res) => { 
+router.post('/upload', upload.single('image'), async (req, res) => {
     try {
         let result = await cloudinary.uploader.upload(req.file.path);
         fs.unlinkSync(req.file.path);
@@ -22,14 +22,13 @@ router.post('/upload', upload.single('image'), async (req, res) => {
             result.secure_url,
             result.public_id
         ]);
-        
+
         res.json({
             success: true,
             url: result.secure_url,
             public_id: result.public_id
         });
     } catch (err) {
-        console.error(err);
         res.status(500).json({ success: false, error: err.message });
     }
 });
@@ -67,7 +66,6 @@ router.put('/images/:public_id', upload.single('image'), async (req, res) => {
             public_id: result.public_id
         });
     } catch (err) {
-        console.error(err);
         res.status(500).json({ error: err.message });
     }
 });

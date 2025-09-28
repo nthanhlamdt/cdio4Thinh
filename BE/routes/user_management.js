@@ -13,49 +13,34 @@ const dbConfig = {
 // Middleware kiểm tra quyền admin
 const checkAdminAuth = async (req, res, next) => {
     try {
-        console.log('=== CHECK ADMIN AUTH ===');
-        console.log('Session loggedin:', req.session.loggedin);
-        console.log('Session username:', req.session.username);
-        console.log('Session vaitro:', req.session.vaitro);
-        console.log('Session full:', req.session);
-        
         if (!req.session.loggedin) {
-            console.log('User not logged in');
-            return res.status(403).json({ 
+            return res.status(403).json({
                 success: false,
-                error: 'Bạn cần đăng nhập để truy cập chức năng này.' 
+                error: 'Bạn cần đăng nhập để truy cập chức năng này.'
             });
         }
-        
+
         if (req.session.vaitro !== 'ADMIN') {
-            console.log('User is not admin. Role:', req.session.vaitro);
-            return res.status(403).json({ 
+            return res.status(403).json({
                 success: false,
                 error: 'Chỉ admin mới có thể truy cập chức năng này. Vai trò hiện tại: ' + req.session.vaitro
             });
         }
-        
-        console.log('Admin access granted');
+
         next();
     } catch (error) {
-        console.error('Auth error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
             error: 'Lỗi xác thực: ' + error.message
         });
     }
 };
 
-// GET - Lấy danh sách tất cả người dùng
-router.get('/users', async (req, res) => {
+// GET - Lấy danh sách admin
+router.get('/admins', async (req, res) => {
     try {
-        console.log('=== GET USERS API ===');
-        console.log('Attempting to connect to database...');
-        
         const connection = await mysql.createConnection(dbConfig);
-        console.log('Database connected successfully');
-        
-        console.log('Executing query...');
+
         const [rows] = await connection.execute(`
             SELECT 
                 tk.TENDANGNHAP,
@@ -66,29 +51,216 @@ router.get('/users', async (req, res) => {
                 vt.TENVT
             FROM TAIKHOAN tk
             JOIN VAITRO vt ON tk.MAVT = vt.MAVT
-            ORDER BY tk.MAVT, tk.TENDANGNHAP
+            WHERE vt.TENVT = 'ADMIN'
+            ORDER BY tk.TENDANGNHAP
         `);
-        
-        console.log('Query executed successfully. Rows found:', rows.length);
-        console.log('Sample data:', rows[0]);
-        
+
         await connection.end();
-        console.log('Database connection closed');
-        
+
         res.json({
             success: true,
             data: rows
         });
     } catch (error) {
-        console.error('=== ERROR IN GET USERS API ===');
-        console.error('Error message:', error.message);
-        console.error('Error code:', error.code);
-        console.error('Error stack:', error.stack);
-        console.error('================================');
-        
-        res.status(500).json({ 
+        res.status(500).json({
+            success: false,
+            error: 'Lỗi khi lấy danh sách admin: ' + error.message
+        });
+    }
+});
+
+// GET - Lấy danh sách tất cả người dùng
+router.get('/users', async (req, res) => {
+    try {
+        const connection = await mysql.createConnection(dbConfig);
+
+        const [rows] = await connection.execute(`
+            SELECT 
+                tk.TENDANGNHAP,
+                tk.MAVT,
+                tk.HOTEN,
+                tk.EMAIL,
+                tk.SDT,
+                vt.TENVT
+            FROM TAIKHOAN tk
+            JOIN VAITRO vt ON tk.MAVT = vt.MAVT
+            WHERE vt.TENVT != 'ADMIN'
+            ORDER BY tk.MAVT, tk.TENDANGNHAP
+        `);
+
+        await connection.end();
+
+        res.json({
+            success: true,
+            data: rows
+        });
+    } catch (error) {
+        res.status(500).json({
             success: false,
             error: 'Lỗi khi lấy danh sách người dùng: ' + error.message
+        });
+    }
+});
+
+// GET - Lấy thông tin một admin
+router.get('/admins/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+        const connection = await mysql.createConnection(dbConfig);
+
+        const [rows] = await connection.execute(`
+            SELECT 
+                tk.TENDANGNHAP,
+                tk.MAVT,
+                tk.HOTEN,
+                tk.EMAIL,
+                tk.SDT,
+                vt.TENVT
+            FROM TAIKHOAN tk
+            JOIN VAITRO vt ON tk.MAVT = vt.MAVT
+            WHERE tk.TENDANGNHAP = ? AND vt.TENVT = 'ADMIN'
+        `, [username]);
+
+        await connection.end();
+
+        if (rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                error: 'Không tìm thấy admin'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: rows[0]
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: 'Lỗi khi lấy thông tin admin'
+        });
+    }
+});
+
+// PUT - Cập nhật thông tin admin
+router.put('/admins/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+        const { HOTEN, EMAIL, SDT, MATKHAU } = req.body;
+
+        const connection = await mysql.createConnection(dbConfig);
+
+        // Kiểm tra admin tồn tại
+        const [existingAdmin] = await connection.execute(`
+            SELECT tk.TENDANGNHAP 
+            FROM TAIKHOAN tk
+            JOIN VAITRO vt ON tk.MAVT = vt.MAVT
+            WHERE tk.TENDANGNHAP = ? AND vt.TENVT = 'ADMIN'
+        `, [username]);
+
+        if (existingAdmin.length === 0) {
+            await connection.end();
+            return res.status(404).json({
+                success: false,
+                error: 'Không tìm thấy admin'
+            });
+        }
+
+        // Chuẩn bị query và parameters
+        let updateQuery = 'UPDATE TAIKHOAN SET ';
+        let updateParams = [];
+        let queryParts = [];
+
+        if (HOTEN !== undefined) {
+            queryParts.push('HOTEN = ?');
+            updateParams.push(HOTEN);
+        }
+        if (EMAIL !== undefined) {
+            queryParts.push('EMAIL = ?');
+            updateParams.push(EMAIL);
+        }
+        if (SDT !== undefined) {
+            queryParts.push('SDT = ?');
+            updateParams.push(SDT);
+        }
+        if (MATKHAU !== undefined && MATKHAU.trim() !== '') {
+            queryParts.push('MATKHAU = ?');
+            updateParams.push(MATKHAU);
+        }
+
+        if (queryParts.length === 0) {
+            await connection.end();
+            return res.status(400).json({
+                success: false,
+                error: 'Không có thông tin nào để cập nhật'
+            });
+        }
+
+        updateQuery += queryParts.join(', ') + ' WHERE TENDANGNHAP = ?';
+        updateParams.push(username);
+
+        await connection.execute(updateQuery, updateParams);
+        await connection.end();
+
+        res.json({
+            success: true,
+            message: 'Cập nhật thông tin admin thành công'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: 'Lỗi khi cập nhật admin'
+        });
+    }
+});
+
+// DELETE - Xóa admin
+router.delete('/admins/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+
+        // Kiểm tra cơ bản
+        if (!username) {
+            return res.status(400).json({
+                success: false,
+                error: 'Tên đăng nhập không hợp lệ'
+            });
+        }
+
+        const connection = await mysql.createConnection(dbConfig);
+
+        // Kiểm tra admin tồn tại
+        const [existingAdmin] = await connection.execute(`
+            SELECT tk.TENDANGNHAP, tk.MAVT 
+            FROM TAIKHOAN tk
+            JOIN VAITRO vt ON tk.MAVT = vt.MAVT
+            WHERE tk.TENDANGNHAP = ? AND vt.TENVT = 'ADMIN'
+        `, [username]);
+
+        if (existingAdmin.length === 0) {
+            await connection.end();
+            return res.status(404).json({
+                success: false,
+                error: 'Không tìm thấy admin'
+            });
+        }
+
+        // Xóa admin
+        await connection.execute(
+            'DELETE FROM TAIKHOAN WHERE TENDANGNHAP = ?',
+            [username]
+        );
+
+        await connection.end();
+
+        res.json({
+            success: true,
+            message: 'Xóa admin thành công'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: 'Lỗi khi xóa admin'
         });
     }
 });
@@ -98,7 +270,7 @@ router.get('/users/:username', async (req, res) => {
     try {
         const { username } = req.params;
         const connection = await mysql.createConnection(dbConfig);
-        
+
         const [rows] = await connection.execute(`
             SELECT 
                 tk.TENDANGNHAP,
@@ -111,25 +283,24 @@ router.get('/users/:username', async (req, res) => {
             JOIN VAITRO vt ON tk.MAVT = vt.MAVT
             WHERE tk.TENDANGNHAP = ?
         `, [username]);
-        
+
         await connection.end();
-        
+
         if (rows.length === 0) {
-            return res.status(404).json({ 
+            return res.status(404).json({
                 success: false,
-                error: 'Không tìm thấy người dùng' 
+                error: 'Không tìm thấy người dùng'
             });
         }
-        
+
         res.json({
             success: true,
             data: rows[0]
         });
     } catch (error) {
-        console.error('Error fetching user:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            error: 'Lỗi khi lấy thông tin người dùng' 
+            error: 'Lỗi khi lấy thông tin người dùng'
         });
     }
 });
@@ -138,47 +309,46 @@ router.get('/users/:username', async (req, res) => {
 router.post('/users', async (req, res) => {
     try {
         const { TENDANGNHAP, MAVT, HOTEN, EMAIL, SDT, MATKHAU } = req.body;
-        
+
         // Validation
         if (!TENDANGNHAP || !MAVT || !MATKHAU) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                error: 'Tên đăng nhập, vai trò và mật khẩu là bắt buộc' 
+                error: 'Tên đăng nhập, vai trò và mật khẩu là bắt buộc'
             });
         }
-        
+
         // Kiểm tra tên đăng nhập đã tồn tại
         const connection = await mysql.createConnection(dbConfig);
         const [existingUser] = await connection.execute(
             'SELECT TENDANGNHAP FROM TAIKHOAN WHERE TENDANGNHAP = ?',
             [TENDANGNHAP]
         );
-        
+
         if (existingUser.length > 0) {
             await connection.end();
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                error: 'Tên đăng nhập đã tồn tại' 
+                error: 'Tên đăng nhập đã tồn tại'
             });
         }
-        
+
         // Thêm người dùng mới (mật khẩu lưu trực tiếp)
         await connection.execute(`
             INSERT INTO TAIKHOAN (TENDANGNHAP, MAVT, HOTEN, EMAIL, SDT, MATKHAU)
             VALUES (?, ?, ?, ?, ?, ?)
         `, [TENDANGNHAP, MAVT, HOTEN || null, EMAIL || null, SDT || null, MATKHAU]);
-        
+
         await connection.end();
-        
+
         res.json({
             success: true,
             message: 'Thêm người dùng thành công'
         });
     } catch (error) {
-        console.error('Error creating user:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            error: 'Lỗi khi tạo người dùng' 
+            error: 'Lỗi khi tạo người dùng'
         });
     }
 });
@@ -188,28 +358,28 @@ router.put('/users/:username', async (req, res) => {
     try {
         const { username } = req.params;
         const { MAVT, HOTEN, EMAIL, SDT, MATKHAU } = req.body;
-        
+
         const connection = await mysql.createConnection(dbConfig);
-        
+
         // Kiểm tra người dùng tồn tại
         const [existingUser] = await connection.execute(
             'SELECT TENDANGNHAP FROM TAIKHOAN WHERE TENDANGNHAP = ?',
             [username]
         );
-        
+
         if (existingUser.length === 0) {
             await connection.end();
-            return res.status(404).json({ 
+            return res.status(404).json({
                 success: false,
-                error: 'Không tìm thấy người dùng' 
+                error: 'Không tìm thấy người dùng'
             });
         }
-        
+
         // Chuẩn bị query và parameters
         let updateQuery = 'UPDATE TAIKHOAN SET ';
         let updateParams = [];
         let queryParts = [];
-        
+
         if (MAVT !== undefined) {
             queryParts.push('MAVT = ?');
             updateParams.push(MAVT);
@@ -230,30 +400,29 @@ router.put('/users/:username', async (req, res) => {
             queryParts.push('MATKHAU = ?');
             updateParams.push(MATKHAU);
         }
-        
+
         if (queryParts.length === 0) {
             await connection.end();
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                error: 'Không có thông tin nào để cập nhật' 
+                error: 'Không có thông tin nào để cập nhật'
             });
         }
-        
+
         updateQuery += queryParts.join(', ') + ' WHERE TENDANGNHAP = ?';
         updateParams.push(username);
-        
+
         await connection.execute(updateQuery, updateParams);
         await connection.end();
-        
+
         res.json({
             success: true,
             message: 'Cập nhật thông tin người dùng thành công'
         });
     } catch (error) {
-        console.error('Error updating user:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            error: 'Lỗi khi cập nhật người dùng' 
+            error: 'Lỗi khi cập nhật người dùng'
         });
     }
 });
@@ -262,48 +431,47 @@ router.put('/users/:username', async (req, res) => {
 router.delete('/users/:username', async (req, res) => {
     try {
         const { username } = req.params;
-        
+
         // Kiểm tra cơ bản
         if (!username) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                error: 'Tên đăng nhập không hợp lệ' 
+                error: 'Tên đăng nhập không hợp lệ'
             });
         }
-        
+
         const connection = await mysql.createConnection(dbConfig);
-        
+
         // Kiểm tra người dùng tồn tại
         const [existingUser] = await connection.execute(
             'SELECT TENDANGNHAP, MAVT FROM TAIKHOAN WHERE TENDANGNHAP = ?',
             [username]
         );
-        
+
         if (existingUser.length === 0) {
             await connection.end();
-            return res.status(404).json({ 
+            return res.status(404).json({
                 success: false,
-                error: 'Không tìm thấy người dùng' 
+                error: 'Không tìm thấy người dùng'
             });
         }
-        
+
         // Xóa người dùng
         await connection.execute(
             'DELETE FROM TAIKHOAN WHERE TENDANGNHAP = ?',
             [username]
         );
-        
+
         await connection.end();
-        
+
         res.json({
             success: true,
             message: 'Xóa người dùng thành công'
         });
     } catch (error) {
-        console.error('Error deleting user:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            error: 'Lỗi khi xóa người dùng' 
+            error: 'Lỗi khi xóa người dùng'
         });
     }
 });
@@ -312,22 +480,21 @@ router.delete('/users/:username', async (req, res) => {
 router.get('/roles', async (req, res) => {
     try {
         const connection = await mysql.createConnection(dbConfig);
-        
+
         const [rows] = await connection.execute(`
             SELECT MAVT, TENVT FROM VAITRO ORDER BY MAVT
         `);
-        
+
         await connection.end();
-        
+
         res.json({
             success: true,
             data: rows
         });
     } catch (error) {
-        console.error('Error fetching roles:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            error: 'Lỗi khi lấy danh sách vai trò' 
+            error: 'Lỗi khi lấy danh sách vai trò'
         });
     }
 });
@@ -338,7 +505,7 @@ router.get('/test', async (req, res) => {
         const connection = await mysql.createConnection(dbConfig);
         const [rows] = await connection.execute('SELECT 1 as test');
         await connection.end();
-        
+
         res.json({
             success: true,
             message: 'Kết nối database thành công',
@@ -351,7 +518,6 @@ router.get('/test', async (req, res) => {
             headers: req.headers
         });
     } catch (error) {
-        console.error('Test connection error:', error);
         res.status(500).json({
             success: false,
             error: 'Lỗi kết nối database: ' + error.message

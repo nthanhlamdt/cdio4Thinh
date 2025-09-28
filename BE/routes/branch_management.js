@@ -14,8 +14,6 @@ const dbConfig = {
 // Lấy danh sách tất cả rạp chiếu
 router.get('/branches', async (req, res) => {
   try {
-    console.log('🏢 [API] /branches called with query:', req.query);
-
     const connection = await mysql.createConnection(dbConfig);
     const { city } = req.query;
 
@@ -29,18 +27,11 @@ router.get('/branches', async (req, res) => {
 
     // Nếu có filter theo thành phố
     if (city) {
-      console.log('🏙️ [API] Filtering by city:', city);
       query += ' WHERE r.MATP = ?';
       params.push(city);
     }
-
     query += ' ORDER BY r.TENRAP';
-
-    console.log('🔍 [API] Final query:', query);
-    console.log('📝 [API] Params:', params);
-
     const [rows] = await connection.execute(query, params);
-    console.log('📊 [API] Query result:', rows);
 
     await connection.end();
 
@@ -49,7 +40,6 @@ router.get('/branches', async (req, res) => {
       data: rows
     });
   } catch (error) {
-    console.error('❌ [API] Error fetching branches:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải danh sách rạp chiếu: ' + error.message
@@ -88,7 +78,6 @@ router.post('/branches', async (req, res) => {
       data: { MARAP: newMarap }
     });
   } catch (error) {
-    console.error('Error adding branch:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi thêm rạp chiếu'
@@ -137,7 +126,6 @@ router.put('/branches/:marap', async (req, res) => {
       message: 'Cập nhật rạp chiếu thành công'
     });
   } catch (error) {
-    console.error('Error updating branch:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi cập nhật rạp chiếu'
@@ -175,7 +163,6 @@ router.delete('/branches/:marap', async (req, res) => {
       message: 'Xóa rạp chiếu thành công'
     });
   } catch (error) {
-    console.error('Error deleting branch:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi xóa rạp chiếu'
@@ -210,7 +197,6 @@ router.get('/branches/:marap', async (req, res) => {
       data: rows[0]
     });
   } catch (error) {
-    console.error('Error fetching branch:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải thông tin rạp chiếu'
@@ -232,7 +218,6 @@ router.get('/cities', async (req, res) => {
       data: rows
     });
   } catch (error) {
-    console.error('Error fetching cities:', error);
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải danh sách thành phố'

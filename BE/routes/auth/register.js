@@ -1,41 +1,59 @@
-let express = require('express');
-let router = express.Router();
-let connection = require('../../db/mysql');
+const express = require('express');
+const router = express.Router();
+const mysql = require('mysql2/promise');
+
+// Cấu hình database
+const dbConfig = {
+    host: 'localhost',
+    user: 'root',
+    password: '123456',
+    database: 'DB_QL_RAP_CHIEU_PHIM',
+    charset: 'utf8mb4'
+};
 
 router.post('/register', async function (req, res) {
     let { usernameRegister, emailRegister, passwordRegister } = req.body;
 
     if (usernameRegister && emailRegister && passwordRegister) {
         try {
-            let [userExists] = await connection.query(
-                'SELECT * FROM TAIKHOAN WHERE TENDANGNHAP = ?',
+            const connection = await mysql.createConnection(dbConfig);
+
+            // Kiểm tra tên đăng nhập đã tồn tại
+            let [userExists] = await connection.execute(
+                'SELECT TENDANGNHAP FROM TAIKHOAN WHERE TENDANGNHAP = ?',
                 [usernameRegister]
             );
 
             if (userExists.length > 0) {
+                await connection.end();
                 return res.status(409).json({ success: false, message: 'Tên đăng nhập đã tồn tại!' });
-            } else {
-                let [insertAccountResult] = await connection.query(
-                    'INSERT INTO TAIKHOAN (TENDANGNHAP, EMAIL, MATKHAU) VALUES (?, ?, ?)',
-                    [usernameRegister, emailRegister, passwordRegister]
-                );
-
-                let [maxIdResult] = await connection.query(
-                    'SELECT MAX(CAST(SUBSTRING(MAND, 3) AS UNSIGNED)) AS maxND FROM NGUOIDUNG'
-                );
-
-                let nextNumber = (maxIdResult[0].maxND || 0) + 1;
-                let newMAND = 'ND' + nextNumber; 
-
-                let [insertUserResult] = await connection.query(
-                    'INSERT INTO NGUOIDUNG (MAND, TENDANGNHAP, HOTEN, EMAIL, SDT, MAVT) VALUES (?, ?, ?, ?, ?, ?)',
-                    [newMAND, usernameRegister, null, emailRegister, null, 'MAVT2']
-                );
-
-                return res.status(201).json({ success: true, message: 'Đăng ký tài khoản thành công! Bạn có thể đăng nhập ngay bây giờ.' });
             }
+
+            // Kiểm tra email đã tồn tại
+            let [emailExists] = await connection.execute(
+                'SELECT EMAIL FROM TAIKHOAN WHERE EMAIL = ?',
+                [emailRegister]
+            );
+
+            if (emailExists.length > 0) {
+                await connection.end();
+                return res.status(409).json({ success: false, message: 'Email đã được sử dụng!' });
+            }
+
+            // Thêm tài khoản mới vào bảng TAIKHOAN
+            await connection.execute(
+                'INSERT INTO TAIKHOAN (TENDANGNHAP, MAVT, HOTEN, EMAIL, SDT, MATKHAU) VALUES (?, ?, ?, ?, ?, ?)',
+                [usernameRegister, 'MAVT2', null, emailRegister, null, passwordRegister]
+            );
+
+            await connection.end();
+
+            return res.status(201).json({
+                success: true,
+                message: 'Đăng ký tài khoản thành công! Bạn có thể đăng nhập ngay bây giờ.'
+            });
+
         } catch (error) {
-            console.error("REGISTER_BACKEND: LỖI CSDL TRONG ĐĂNG KÝ:", error);
             if (error.code === 'ER_DUP_ENTRY') {
                 return res.status(409).json({ success: false, message: 'Tên đăng nhập hoặc email đã tồn tại!' });
             }

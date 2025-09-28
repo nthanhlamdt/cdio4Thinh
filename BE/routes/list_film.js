@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 let connection = require('../db/mysql');
 
-router.get('/list_film/status/:matt', async function(req, res) {
+router.get('/list_film/status/:matt', async function (req, res) {
     let matt = req.params.matt;
 
     try {
@@ -14,7 +14,6 @@ router.get('/list_film/status/:matt', async function(req, res) {
         res.status(200).json({ success: true, films: phimList });
 
     } catch (error) {
-        console.error("API /phim/status: LỖI KHI LẤY DANH SÁCH PHIM:", error);
         res.status(500).json({ success: false, message: 'Lỗi server khi lấy danh sách phim.' });
     }
 });

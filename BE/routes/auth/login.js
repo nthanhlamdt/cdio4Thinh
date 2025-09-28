@@ -5,7 +5,6 @@ let connection = require('../../db/mysql');
 router.post('/login', async function (req, res) {
 
     if (!req.body) {
-        console.error("LỖI: req.body là undefined. Middleware express.json() hoặc express.urlencoded() có vấn đề?");
         return res.status(400).json({ success: false, message: 'Yêu cầu không hợp lệ. Vui lòng thử lại.' });
     }
 
@@ -34,7 +33,6 @@ router.post('/login', async function (req, res) {
                 res.json({ success: false, message: 'Sai tên đăng nhập hoặc mật khẩu!' });
             }
         } catch (error) {
-            console.error("LỖI CSDL TRONG ĐĂNG NHẬP:", error);
             res.status(500).json({ success: false, message: 'Lỗi server khi truy vấn CSDL.' });
         }
     } else {
