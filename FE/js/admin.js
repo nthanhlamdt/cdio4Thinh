@@ -1851,16 +1851,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Load danh sách phòng theo rạp
+    // Load danh sách phòng theo rạp (chỉ phòng của rạp đã chọn)
     async function loadRoomsForSchedule(branchId, targetSelectId) {
         try {
-            const response = await fetch(`${API_BASE}/rooms${branchId ? `?branch=${branchId}` : ''}`);
+            const select = document.getElementById(targetSelectId);
+            if (!select) return;
+            select.innerHTML = '<option value="">Chọn phòng *</option>';
+
+            if (!branchId) return; // không có rạp -> không load phòng
+
+            const response = await fetch(`${API_BASE}/rooms/by-branch?branch=${encodeURIComponent(branchId)}`);
             const result = await response.json();
 
-            if (result.success) {
-                const select = document.getElementById(targetSelectId);
-                select.innerHTML = '<option value="">Chọn phòng *</option>';
-
+            if (result.success && Array.isArray(result.data)) {
                 result.data.forEach(room => {
                     const option = document.createElement('option');
                     option.value = room.MAPHONG;
