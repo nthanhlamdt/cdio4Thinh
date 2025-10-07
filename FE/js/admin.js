@@ -59,6 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
         loadRooms();
     });
 
+    // Mở tab Quản trị viên
+    tabLinks.admin.addEventListener('click', (e) => {
+        e.preventDefault();
+        activateTab('admin');
+        loadAdmins();
+    });
+
     const raw = localStorage.getItem('user');
     if (raw) {
         const u = JSON.parse(raw);
