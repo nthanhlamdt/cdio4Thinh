@@ -81,6 +81,65 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Cập nhật thông tin tài khoản admin từ form "THÔNG TIN TÀI KHOẢN"
+    const adminInfoForm = document.querySelector('.info.in4 form');
+    if (adminInfoForm) {
+        adminInfoForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const usernameEl = document.getElementById('username');
+            const fullnameEl = document.getElementById('fullname');
+            const emailEl = document.getElementById('email');
+            const phoneEl = document.getElementById('phoneNumber');
+
+            const username = (usernameEl && usernameEl.value) || '';
+            const HOTEN = (fullnameEl && fullnameEl.value) || '';
+            const EMAIL = (emailEl && emailEl.value) || '';
+            const SDT = (phoneEl && phoneEl.value) || '';
+
+            // Cập nhật localStorage
+            try {
+                const raw = localStorage.getItem('user');
+                const user = raw ? JSON.parse(raw) : {};
+                user.TENDANGNHAP = user.TENDANGNHAP || username;
+                user.username = user.username || username;
+                user.HOTEN = HOTEN;
+                user.fullname = HOTEN;
+                user.EMAIL = EMAIL;
+                user.email = EMAIL;
+                user.SDT = SDT;
+                user.phone = SDT;
+                user.phoneNumber = SDT;
+                localStorage.setItem('user', JSON.stringify(user));
+            } catch (err) {
+                // ignore JSON errors
+            }
+
+            // Thử gọi API cập nhật admin nếu có session hợp lệ
+            try {
+                if (username) {
+                    const resp = await fetch(`${API_BASE}/admins/${encodeURIComponent(username)}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ HOTEN, EMAIL, SDT })
+                    });
+                    const result = await resp.json().catch(() => ({}));
+                    if (!resp.ok || result.success === false) {
+                        // Nếu API lỗi, vẫn coi là cập nhật cục bộ thành công
+                        showAlert(result.error || 'Đã lưu cục bộ. API cập nhật thất bại.', 'warning');
+                    } else {
+                        showAlert('Cập nhật thông tin thành công!', 'success');
+                    }
+                } else {
+                    showAlert('Cập nhật thông tin thành công!', 'success');
+                }
+            } catch (_) {
+                showAlert('Đã lưu cục bộ. Không thể gọi API cập nhật.', 'warning');
+            }
+        });
+    }
+
     tabLinks.users.addEventListener('click', (e) => {
         e.preventDefault();
         activateTab('users');
