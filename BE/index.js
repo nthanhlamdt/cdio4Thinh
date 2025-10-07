@@ -59,12 +59,6 @@ app.get('/', function (req, res) {
 });
 
 app.get('/session', (req, res) => {
-    console.log('=== SESSION DEBUG ===');
-    console.log('Session ID:', req.sessionID);
-    console.log('Session data:', req.session);
-    console.log('Headers:', req.headers);
-    console.log('========================');
-
     if (req.session.loggedin) {
         res.json({
             loggedIn: true,

@@ -59,11 +59,27 @@ document.addEventListener('DOMContentLoaded', () => {
         loadRooms();
     });
 
-    tabLinks.admin.addEventListener('click', (e) => {
-        e.preventDefault();
-        activateTab('admin');
-        loadAdmins();
-    });
+    const raw = localStorage.getItem('user');
+    if (raw) {
+        const u = JSON.parse(raw);
+        const username = u.TENDANGNHAP || u.username || '';
+        const hoten = u.HOTEN || u.fullname || '';
+        const email = u.EMAIL || u.email || '';
+        const sdt = u.SDT || u.phone || u.phoneNumber || '';
+
+        const userIsAdmin = (u.MAVT || u.role || '').toString().toUpperCase() === 'MAVT1' || (u.VAITRO || '').toString().toUpperCase() === 'ADMIN';
+
+        const un = document.getElementById('username');
+        const ht = document.getElementById('fullname');
+        const em = document.getElementById('email');
+        const ph = document.getElementById('phoneNumber');
+        if (un && ht && em && ph && (userIsAdmin || username)) {
+            un.value = username;
+            ht.value = hoten;
+            em.value = email;
+            ph.value = sdt;
+        }
+    }
 
     tabLinks.users.addEventListener('click', (e) => {
         e.preventDefault();
@@ -408,6 +424,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${branch.DIACHI}</td>
                 <td>${branch.TENTP || 'N/A'}</td>
                 <td>
+                    <button class="btn btn-sm btn-info me-1" onclick="manageRoomsByBranch('${branch.MARAP}', '${branch.TENRAP}')">
+                        <i class="fas fa-door-open"></i>
+                    </button>
                     <button class="btn btn-sm btn-primary me-1" onclick="editBranch('${branch.MARAP}')">
                         <i class="fas fa-edit"></i>
                     </button>
@@ -418,6 +437,91 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             tbody.appendChild(row);
         });
+    }
+
+    // ========== QUẢN LÝ PHÒNG THEO RẠP ==========
+    let currentManageRoomsBranchId = '';
+
+    async function loadRoomsForBranch(marap) {
+        const res = await fetch(`${API_BASE}/rooms/by-branch?branch=${encodeURIComponent(marap)}`);
+        const result = await res.json();
+        const tbody = document.getElementById('roomsByBranchBody');
+        tbody.innerHTML = '';
+        if (result.success && Array.isArray(result.data)) {
+            result.data.forEach(room => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${room.MARAP || currentManageRoomsBranchId}</td>
+                    <td><b>${room.MAPHONG}</b></td>
+                    <td>
+                        <input type="text" class="form-control form-control-sm" value="${room.TENPHONG}" data-maphong="${room.MAPHONG}" />
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-1" onclick="saveRoomByBranch('${room.MAPHONG}')"><i class="fas fa-save"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteRoomByBranch('${room.MAPHONG}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        } else {
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Không có phòng</td></tr>';
+        }
+    }
+
+    window.manageRoomsByBranch = async function (marap, tenrap) {
+        currentManageRoomsBranchId = marap;
+        document.getElementById('roomsBranchTitle').textContent = `${tenrap} (${marap})`;
+        await loadRoomsForBranch(marap);
+        new bootstrap.Modal(document.getElementById('manageRoomsByBranchModal')).show();
+    }
+
+    document.getElementById('confirmAddRoomByBranchBtn').addEventListener('click', async function () {
+        const nameInput = document.getElementById('addRoomByBranchName');
+        const TENPHONG = nameInput.value.trim();
+        if (!TENPHONG || !currentManageRoomsBranchId) return;
+
+        const resp = await fetch(`${API_BASE}/rooms`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ TENPHONG, MARAP: currentManageRoomsBranchId })
+        });
+        const result = await resp.json();
+        if (result.success) {
+            nameInput.value = '';
+            await loadRoomsForBranch(currentManageRoomsBranchId);
+            showAlert('Thêm phòng thành công!', 'success');
+        } else {
+            showAlert(result.error || 'Lỗi khi thêm phòng', 'error');
+        }
+    });
+
+    window.saveRoomByBranch = async function (maphong) {
+        const input = document.querySelector(`#roomsByBranchBody input[data-maphong="${maphong}"]`);
+        if (!input) return;
+        const TENPHONG = input.value.trim();
+        const resp = await fetch(`${API_BASE}/rooms/${maphong}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ TENPHONG, MARAP: currentManageRoomsBranchId })
+        });
+        const result = await resp.json();
+        if (result.success) {
+            showAlert('Cập nhật phòng thành công!', 'success');
+            await loadRoomsForBranch(currentManageRoomsBranchId);
+        } else {
+            showAlert(result.error || 'Lỗi khi cập nhật phòng', 'error');
+        }
+    }
+
+    window.deleteRoomByBranch = async function (maphong) {
+        const resp = await fetch(`${API_BASE}/rooms/${maphong}`, { method: 'DELETE' });
+        const result = await resp.json();
+        if (result.success) {
+            showAlert('Xóa phòng thành công!', 'success');
+            await loadRoomsForBranch(currentManageRoomsBranchId);
+        } else {
+            showAlert(result.error || 'Lỗi khi xóa phòng', 'error');
+        }
     }
 
     // Thêm rạp mới

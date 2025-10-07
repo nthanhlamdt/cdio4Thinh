@@ -203,6 +203,13 @@ router.post('/rooms', async (req, res) => {
 
     const connection = await mysql.createConnection(dbConfig);
 
+    // Kiểm tra rạp tồn tại
+    const [rap] = await connection.execute('SELECT MARAP FROM RAP WHERE MARAP = ? LIMIT 1', [MARAP]);
+    if (rap.length === 0) {
+      await connection.end();
+      return res.status(400).json({ success: false, error: 'Mã rạp không tồn tại' });
+    }
+
     // Kiểm tra trùng tên phòng trong cùng rạp
     const [dupRows] = await connection.execute(
       'SELECT 1 FROM PHONG WHERE MARAP = ? AND TENPHONG = ? LIMIT 1',
@@ -216,7 +223,7 @@ router.post('/rooms', async (req, res) => {
       });
     }
 
-    // Tạo mã phòng tự động
+    // Tạo mã phòng tự động (dựa trên tổng số phòng hiện có)
     const [countRows] = await connection.execute('SELECT COUNT(*) as count FROM PHONG');
     const newMaphong = `P${String(countRows[0].count + 1).padStart(3, '0')}`;
 
@@ -230,7 +237,7 @@ router.post('/rooms', async (req, res) => {
     res.json({
       success: true,
       message: 'Thêm phòng chiếu thành công',
-      data: { MAPHONG: newMaphong }
+      data: { MAPHONG: newMaphong, TENPHONG, MARAP }
     });
   } catch (error) {
     res.status(500).json({
@@ -332,6 +339,32 @@ router.delete('/rooms/:maphong', async (req, res) => {
   }
 });
 
+// Lấy danh sách phòng theo rạp (đặt TRƯỚC route "/rooms/:maphong" để tránh bị khớp nhầm)
+router.get('/rooms/by-branch', async (req, res) => {
+  try {
+    const connection = await mysql.createConnection(dbConfig);
+    const { branch } = req.query;
+
+    if (!branch || !branch.trim()) {
+      await connection.end();
+      return res.json({ success: true, data: [] });
+    }
+
+    const [rows] = await connection.execute(
+      `SELECT p.MAPHONG, p.TENPHONG, p.MARAP
+       FROM PHONG p
+       WHERE p.MARAP = ?
+       ORDER BY p.TENPHONG`,
+      [branch.trim()]
+    );
+
+    await connection.end();
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Lỗi khi tải danh sách phòng' });
+  }
+});
+
 // Lấy thông tin một phòng cụ thể
 router.get('/rooms/:maphong', async (req, res) => {
   try {
@@ -383,44 +416,6 @@ router.get('/branches', async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Lỗi khi tải danh sách rạp'
-    });
-  }
-});
-
-// Lấy danh sách phòng theo rạp
-router.get('/rooms', async (req, res) => {
-  try {
-    const connection = await mysql.createConnection(dbConfig);
-    const { branch } = req.query;
-
-    let query = `
-            SELECT p.MAPHONG, p.TENPHONG, p.MARAP, r.TENRAP
-            FROM PHONG p
-            LEFT JOIN RAP r ON p.MARAP = r.MARAP
-        `;
-
-    let params = [];
-
-    // Nếu có filter theo rạp
-    if (branch) {
-      query += ' WHERE p.MARAP = ?';
-      params.push(branch);
-    }
-
-    query += ' ORDER BY r.TENRAP, p.TENPHONG';
-
-    const [rows] = await connection.execute(query, params);
-
-    await connection.end();
-
-    res.json({
-      success: true,
-      data: rows
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: 'Lỗi khi tải danh sách phòng'
     });
   }
 });

@@ -131,11 +131,6 @@
                                         placeholder="Nhập Số Điện Thoại" value="" required>
                                     <label>Số Điện Thoại</label>
                                 </section>
-                                <section class="info-box">
-                                    <input type="password" name="password" id="password" value="123456789" readonly
-                                        class="readonly-input">
-                                    <label>Mật Khẩu</label>
-                                </section>
                                 <section class="layer-btn save">
                                     <section class="group-btn">
                                         <button type="submit" class="save-btn" data-bs-toggle="modal"
@@ -195,7 +190,7 @@
                                         <td>Tiếng Việt - Phụ đề Tiếng Anh</td>
                                         <td>T16 - Phim được phổ biến đến người xem từ đủ 16 tuổi trở lên (16+)</td>
                                         <td>
-                                            <img src="../img/poster/dia_dao_mat_troi.jpg" alt="#"
+                                            <img src="../img/poster/dia_dao_mat_troi.png" alt="#"
                                                 style="width: 70px; height: auto;">
                                         </td>
                                         <td>Đang Chiếu</td>
@@ -208,7 +203,7 @@
                                         <td>Tiếng Indonesia - Phụ đề Tiếng Anh và tiếng Việt</td>
                                         <td>T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)</td>
                                         <td>
-                                            <img src="../img/poster/me_quy_con_ma.jpg" alt="#"
+                                            <img src="../img/poster/me_quy_con_ma.png" alt="#"
                                                 style="width: 70px; height: auto;">
                                         </td>
                                         <td>Sắp Chiếu</td>
@@ -222,7 +217,7 @@
                                         <td>K - Phim được phổ biến đến người xem dưới 13 tuổi và có người bảo hộ đi kèm
                                         </td>
                                         <td>
-                                            <img src="../img/poster/mot_bo_phim_minecraft.jpg" alt="#"
+                                            <img src="../img/poster/mot_bo_phim_minecraft.png" alt="#"
                                                 style="width: 70px; height: auto;">
                                         </td>
                                         <td>Đang Chiếu</td>
@@ -235,7 +230,7 @@
                                         <td>Tiếng Hàn - Phụ đề tiếng Việt, tiếng Anh</td>
                                         <td>T16 - Phim được phổ biến đến người xem từ đủ 16 tuổi trở lên (16+)</td>
                                         <td>
-                                            <img src="../img/poster/dau_xuoi_duoi_dut_lot.jpg" alt="#"
+                                            <img src="../img/poster/dau_xuoi_duoi_dut_lot.png" alt="#"
                                                 style="width: 70px; height: auto;">
                                         </td>
                                         <td>Sắp Chiếu</td>
@@ -783,12 +778,12 @@
                                         </section>
                                         <section class="info-box">
                                             <input type="text" name="phone" id="addPhone"
-                                                placeholder="Nhập số điện thoại">
+                                                placeholder="Nhập số điện thoại" autocomplete="tel">
                                             <label>Số Điện Thoại</label>
                                         </section>
                                         <section class="info-box">
                                             <input type="password" name="password" id="addPassword"
-                                                placeholder="Nhập mật khẩu" required>
+                                                placeholder="Nhập mật khẩu" required autocomplete="new-password">
                                             <label>Mật Khẩu</label>
                                         </section>
                                         <section class="input-group info-box mb-3">
@@ -835,12 +830,13 @@
                                         </section>
                                         <section class="info-box">
                                             <input type="text" name="phone" id="editPhone"
-                                                placeholder="Nhập số điện thoại">
+                                                placeholder="Nhập số điện thoại" autocomplete="tel">
                                             <label>Số Điện Thoại</label>
                                         </section>
                                         <section class="info-box">
                                             <input type="password" name="password" id="editPassword"
-                                                placeholder="Để trống nếu không đổi mật khẩu">
+                                                placeholder="Để trống nếu không đổi mật khẩu"
+                                                autocomplete="current-password">
                                             <label>Mật Khẩu Mới</label>
                                         </section>
                                         <section class="input-group info-box mb-3">
@@ -896,12 +892,12 @@
                                     <form class="info-form" id="addAdminForm">
                                         <section class="info-box">
                                             <input type="text" name="TENDANGNHAP" id="addAdminUsername"
-                                                placeholder="Nhập tên đăng nhập" required>
+                                                placeholder="Nhập tên đăng nhập" required autocomplete="username">
                                             <label>Tên Đăng Nhập *</label>
                                         </section>
                                         <section class="info-box">
                                             <input type="password" name="MATKHAU" id="addAdminPassword"
-                                                placeholder="Nhập mật khẩu" required>
+                                                placeholder="Nhập mật khẩu" required autocomplete="new-password">
                                             <label>Mật Khẩu *</label>
                                         </section>
                                         <section class="info-box">
@@ -941,12 +937,13 @@
                                     <form class="info-form" id="editAdminForm">
                                         <section class="info-box">
                                             <input type="text" name="TENDANGNHAP" id="editAdminUsername"
-                                                placeholder="Tên đăng nhập" readonly>
+                                                placeholder="Tên đăng nhập" readonly autocomplete="username">
                                             <label>Tên Đăng Nhập</label>
                                         </section>
                                         <section class="info-box">
                                             <input type="password" name="MATKHAU" id="editAdminPassword"
-                                                placeholder="Để trống nếu không đổi mật khẩu">
+                                                placeholder="Để trống nếu không đổi mật khẩu"
+                                                autocomplete="current-password">
                                             <label>Mật Khẩu Mới</label>
                                         </section>
                                         <section class="info-box">
@@ -1164,6 +1161,47 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="saveBranchBtn">Thêm</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Quản lý phòng theo rạp -->
+        <div class="modal" id="manageRoomsByBranchModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Quản Lý Phòng - <span id="roomsBranchTitle"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <section class="layer-info mb-3">
+                            <form class="info-form" id="addRoomByBranchForm">
+                                <section class="info-box">
+                                    <input type="text" name="tenphong" id="addRoomByBranchName"
+                                        placeholder="Nhập tên phòng *" required>
+                                    <label>Tên Phòng *</label>
+                                </section>
+                            </form>
+                            <button class="btn btn-primary" id="confirmAddRoomByBranchBtn">Thêm phòng</button>
+                        </section>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead>
+                                    <tr>
+                                        <th class="custom-color">Mã Rạp</th>
+                                        <th class="custom-color">Mã Phòng</th>
+                                        <th class="custom-color">Tên Phòng</th>
+                                        <th class="custom-color">Thao Tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="roomsByBranchBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                     </div>
                 </div>
